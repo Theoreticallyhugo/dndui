@@ -1,0 +1,10 @@
+[package]
+name = "rat-simple-template"
+version = "0.1.0"
+authors = ["Theoreticallyhugo <me@theoreticallyhugo.com>"]
+license = "MIT"
+edition = "2021"
+
+[dependencies]
+crossterm = "0.27.0"
+ratatui = "0.26.0"
