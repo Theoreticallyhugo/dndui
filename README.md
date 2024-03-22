@@ -1,5 +1,6 @@
 ## Simple template
 
+
 The simple template will create the following project structure:
 
 ```text

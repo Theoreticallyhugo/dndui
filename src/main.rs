@@ -1,6 +1,6 @@
 use rat_simple_template::app::{App, AppResult};
 use rat_simple_template::event::{Event, EventHandler};
-use rat_simple_template::handler::handle_key_events;
+use rat_simple_template::handler::{handle_key_events, handle_mouse_events};
 use rat_simple_template::tui::Tui;
 use std::io;
 use ratatui::backend::CrosstermBackend;
@@ -25,7 +25,7 @@ fn main() -> AppResult<()> {
         match tui.events.next()? {
             Event::Tick => app.tick(),
             Event::Key(key_event) => handle_key_events(key_event, &mut app)?,
-            Event::Mouse(_) => {}
+            Event::Mouse(mouse_event) => handle_mouse_events(mouse_event, &mut app)?,
             Event::Resize(_, _) => {}
         }
     }
