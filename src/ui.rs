@@ -3,7 +3,7 @@
 use ratatui::{
     prelude::{Layout, Direction, Rect},
     layout::{Alignment, Constraint},
-    style::{Color, Style, Stylize},
+    style::{Color, Style},
     widgets::{Block, BorderType, Paragraph},
     Frame,
 };
@@ -34,7 +34,7 @@ pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
     let layout = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
-        .split(frame.size());
+        .split(area);
 
     frame.render_widget(
         Paragraph::new(format!(" {}  {}  {}  lvl {: >2}","name", "dragonborn", "paladin", "3"))
@@ -79,7 +79,7 @@ pub fn first(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("strength\n{}\n{: >2}", "+3", 16))
+        Paragraph::new(format!("strength\n{}\n{: >2}", "+3", app.character.get_strength()))
         .block(
             Block::bordered()
                 .title("")
@@ -94,7 +94,7 @@ pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("dexterity\n{}\n{: >2}", "-1", 8))
+        Paragraph::new(format!("dexterity\n{}\n{: >2}", "-1", app.character.get_dexterity()))
         .block(
             Block::bordered()
                 .title("")
@@ -109,7 +109,7 @@ pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("constitution\n{}\n{: >2}", "+2", 14))
+        Paragraph::new(format!("constitution\n{}\n{: >2}", "+2", app.character.get_constitution()))
         .block(
             Block::bordered()
                 .title("")
@@ -124,7 +124,7 @@ pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("intelligence\n{}\n{: >2}", "-1", 8))
+        Paragraph::new(format!("intelligence\n{}\n{: >2}", "-1", app.character.get_intelligence()))
         .block(
             Block::bordered()
                 .title("")
@@ -139,7 +139,7 @@ pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("wisdom\n{}\n{: >2}", "+1", 12))
+        Paragraph::new(format!("wisdom\n{}\n{: >2}", "+1", app.character.get_wisdom()))
         .block(
             Block::bordered()
                 .title("")
@@ -154,7 +154,7 @@ pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("charisma\n{}\n{: >2}", "+3", 16))
+        Paragraph::new(format!("charisma\n{}\n{: >2}", "+3", app.character.get_charisma()))
         .block(
             Block::bordered()
                 .title("")
@@ -169,7 +169,7 @@ pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_proficiency(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("proficiency\n{}\nbonus", "+2"))
+        Paragraph::new(format!("proficiency\n+{}\nbonus", app.character.get_proficiency()))
         .block(
             Block::bordered()
                 .title("")
@@ -221,7 +221,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
     ])
     .split(area);
 
-    let mut health_colour: Color;
+    let health_colour: Color;
     match app.get_input_mode() {
         InputMode::Normal => {
             health_colour = Color::Cyan;
@@ -229,10 +229,10 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         InputMode::Damaging => {
             health_colour = Color::Red;
         },
-    }
+    };
 
     frame.render_widget(
-        Paragraph::new("heal\n\ndamage")
+        Paragraph::new(format!("heal\n{: >6}\ndamage", app.get_input()))
         .block(
             Block::bordered()
                 .title("")
@@ -244,7 +244,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[0],
     );
     frame.render_widget(
-        Paragraph::new(format!("current\n{}\nhp", "28"))
+        Paragraph::new(format!("current\n{: >2}\nhp", app.character.get_current_hp()))
         .block(
             Block::bordered()
                 .title("")
@@ -256,7 +256,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[1],
     );
     frame.render_widget(
-        Paragraph::new(format!("max\n{}\nhp", "28"))
+        Paragraph::new(format!("max\n{: >2}\nhp", app.character.get_max_hp()))
         .block(
             Block::bordered()
                 .title("")
@@ -267,8 +267,16 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         .centered(),
         layout[2],
     );
+
+    let temp_hp: String;
+    if app.character.get_temp_hp() == 0 {
+        temp_hp = "--".to_string();
+    } else {
+        temp_hp = app.character.get_temp_hp().to_string();
+    };
+
     frame.render_widget(
-        Paragraph::new(format!("temp\n{}\nhp", "--"))
+        Paragraph::new(format!("temp\n{: >2}\nhp", temp_hp))
         .block(
             Block::bordered()
                 .title("")
@@ -483,7 +491,7 @@ pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
         Paragraph::new(
             format!(
             "This is a tui template.\n\
-                Press `Esc`, `Ctrl-C` or `q` to stop running.\n\
+                Press `Ctrl-C` or `q` to stop running.\n\
                 Press left and right to increment and decrement the counter respectively.\n\
                 Counter: {}",
             app.get_counter()

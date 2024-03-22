@@ -40,8 +40,34 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
         InputMode::Damaging => {
             match key_event.code {
                 KeyCode::Esc => {
+                    app.clear_input();
                     app.stop_input();
                 },
+                KeyCode::Enter => app.submit_message(),
+                KeyCode::Char('-') => {
+                    if app.get_input_length() == 0 {
+                        app.enter_char('-');
+                    }
+                }
+                KeyCode::Char('+') => {
+                    if app.get_input_length() == 0 {
+                        app.enter_char('+');
+                    }
+                }
+                KeyCode::Char(to_insert) => {
+                    if to_insert.is_ascii_digit() && app.get_input_length() < 6 {
+                        app.enter_char(to_insert);
+                    }
+                }
+                KeyCode::Backspace => {
+                    app.delete_char();
+                }
+                KeyCode::Left => {
+                    app.move_cursor_left();
+                }
+                KeyCode::Right => {
+                    app.move_cursor_right();
+                }
                 _ => {}
             }
 
