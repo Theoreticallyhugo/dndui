@@ -3,13 +3,22 @@ use std::error;
 /// Application result type.
 pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
 
+pub enum InputMode {
+    Normal,
+    Damaging,
+}
+
 /// Application.
-#[derive(Debug)]
+// #[derive(Debug)]
 pub struct App {
     /// Is the application running?
-    pub running: bool,
+    running: bool,
     /// counter
-    pub counter: u8,
+    counter: u8,
+    /// current input mode
+    input_mode: InputMode,
+    /// current value of the input box
+    input: String,
 }
 
 impl Default for App {
@@ -17,6 +26,8 @@ impl Default for App {
         Self {
             running: true,
             counter: 0,
+            input_mode: InputMode::Normal,
+            input: String::new(),
         }
     }
 }
@@ -33,6 +44,26 @@ impl App {
     /// Set running to false to quit the application.
     pub fn quit(&mut self) {
         self.running = false;
+    }
+
+    pub fn get_counter(&self) -> u8 {
+        self.counter
+    }
+
+    pub fn get_running(&self) -> bool {
+        self.running
+    }
+
+    pub fn get_input_mode(&self) -> &InputMode {
+        &self.input_mode
+    }
+
+    pub fn stop_input(&mut self) {
+        self.input_mode = InputMode::Normal;
+    }
+
+    pub fn start_damaging(&mut self) {
+        self.input_mode = InputMode::Damaging;
     }
 
     pub fn increment_counter(&mut self) {

@@ -18,7 +18,7 @@ fn main() -> AppResult<()> {
     tui.init()?;
 
     // Start the main loop.
-    while app.running {
+    while app.get_running() {
         // Render the user interface.
         tui.draw(&mut app)?;
         // Handle events.

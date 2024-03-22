@@ -1,5 +1,5 @@
-use chrono;
-use std::process::Command;
+// use chrono;
+// use std::process::Command;
 use ratatui::{
     prelude::{Layout, Direction, Rect},
     layout::{Alignment, Constraint},
@@ -9,6 +9,8 @@ use ratatui::{
 };
 
 use crate::app::App;
+use crate::app::InputMode;
+
 
 /// Renders the user interface widgets.
 pub fn render(app: &mut App, frame: &mut Frame) {
@@ -218,6 +220,17 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         Constraint::Percentage(25),
     ])
     .split(area);
+
+    let mut health_colour: Color;
+    match app.get_input_mode() {
+        InputMode::Normal => {
+            health_colour = Color::Cyan;
+        },
+        InputMode::Damaging => {
+            health_colour = Color::Red;
+        },
+    }
+
     frame.render_widget(
         Paragraph::new("heal\n\ndamage")
         .block(
@@ -226,7 +239,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .style(Style::default().fg(health_colour).bg(Color::Reset))
         .centered(),
         layout[0],
     );
@@ -473,7 +486,7 @@ pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
                 Press `Esc`, `Ctrl-C` or `q` to stop running.\n\
                 Press left and right to increment and decrement the counter respectively.\n\
                 Counter: {}",
-            app.counter
+            app.get_counter()
         ))
         .block(
             Block::bordered()
