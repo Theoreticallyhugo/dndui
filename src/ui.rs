@@ -19,14 +19,35 @@ pub fn render(app: &mut App, frame: &mut Frame) {
 
     let layout = Layout::default()
         .direction(Direction::Vertical)
-        .constraints([Constraint::Length(5), Constraint::Fill(1)])
+        .constraints([Constraint::Length(1), Constraint::Length(5), Constraint::Fill(1)])
         .split(frame.size());
 
-    first(frame, app, layout[0]);
+    headline(frame, app, layout[0]);
+    first(frame, app, layout[1]);
 // sudo powermetrics --samplers gpu_power -i500 -n 1 | grep 'active residency' | sed 's/[^0-9.%]//g' | sed 's/[%].*$//g'
-    second(frame, app, layout[1]);
+    second(frame, app, layout[2]);
 }
 
+pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
+    let layout = Layout::default()
+        .direction(Direction::Horizontal)
+        .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
+        .split(frame.size());
+
+    frame.render_widget(
+        Paragraph::new(format!(" {}  {}  {}  lvl {: >2}","name", "dragonborn", "paladin", "3"))
+        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .left_aligned(),
+        layout[0],
+    );
+
+    frame.render_widget(
+        Paragraph::new("short rest   long rest   edit ")
+        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .right_aligned(),
+        layout[1],
+    );
+}
 pub fn first(frame: &mut Frame, app: &mut App, area: Rect) {
     let layout = Layout::horizontal([
         Constraint::Length(15),
@@ -210,7 +231,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[0],
     );
     frame.render_widget(
-        Paragraph::new(format!("current\n{}\nhp", "30"))
+        Paragraph::new(format!("current\n{}\nhp", "28"))
         .block(
             Block::bordered()
                 .title("")
@@ -222,7 +243,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[1],
     );
     frame.render_widget(
-        Paragraph::new(format!("max\n{}\nhp", "30"))
+        Paragraph::new(format!("max\n{}\nhp", "28"))
         .block(
             Block::bordered()
                 .title("")
@@ -234,7 +255,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[2],
     );
     frame.render_widget(
-        Paragraph::new(format!("temp\n{}\nhp", "30"))
+        Paragraph::new(format!("temp\n{}\nhp", "--"))
         .block(
             Block::bordered()
                 .title("")
