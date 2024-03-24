@@ -37,7 +37,13 @@ pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
         .split(area);
 
     frame.render_widget(
-        Paragraph::new(format!(" {}  {}  {}  lvl {: >2}","name", "dragonborn", "paladin", "3"))
+        Paragraph::new(format!(
+            " {}  {}  {}  lvl {: >2}",
+            app.character.get_name(), 
+            app.character.get_race(), 
+            app.character.get_class(), 
+            app.character.get_level()
+        ))
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
         .left_aligned(),
         layout[0],
@@ -79,7 +85,14 @@ pub fn first(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("strength\n{}\n{: >2}", "+3", app.character.get_strength()))
+        Paragraph::new(format!(
+            "strength\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_strength(), 
+                false
+            ), 
+            app.character.get_strength()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -94,7 +107,14 @@ pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("dexterity\n{}\n{: >2}", "-1", app.character.get_dexterity()))
+        Paragraph::new(format!(
+            "dexterity\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_dexterity(), 
+                false
+            ), 
+            app.character.get_dexterity()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -109,7 +129,14 @@ pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("constitution\n{}\n{: >2}", "+2", app.character.get_constitution()))
+        Paragraph::new(format!(
+            "constitution\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_constitution(), 
+                false
+            ), 
+            app.character.get_constitution()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -124,7 +151,14 @@ pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("intelligence\n{}\n{: >2}", "-1", app.character.get_intelligence()))
+        Paragraph::new(format!(
+            "intelligence\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                false
+            ), 
+            app.character.get_intelligence()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -139,7 +173,14 @@ pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("wisdom\n{}\n{: >2}", "+1", app.character.get_wisdom()))
+        Paragraph::new(format!(
+            "wisdom\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                false
+            ), 
+            app.character.get_wisdom()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -154,7 +195,14 @@ pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("charisma\n{}\n{: >2}", "+3", app.character.get_charisma()))
+        Paragraph::new(format!(
+            "charisma\n{: >+2}\n{: >2}", 
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                false
+            ), 
+            app.character.get_charisma()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -184,7 +232,10 @@ pub fn first_proficiency(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_walking(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("walking\n  {: >3} ft.\nspeed", "30"))
+        Paragraph::new(format!(
+            "walking\n  {: >3} ft.\nspeed", 
+            app.character.get_walking_speed()
+        ))
         .block(
             Block::bordered()
                 .title("")
@@ -198,15 +249,39 @@ pub fn first_walking(frame: &mut Frame, app: &mut App, area: Rect) {
 }
 
 pub fn first_inspiration(frame: &mut Frame, app: &mut App, area: Rect) {
+    let inspiration_colour = match app.get_input_mode() {
+        InputMode::Inspiration => {
+            Color::Red
+        },
+        _ => {
+            Color::Cyan
+        },
+    };
     frame.render_widget(
-        Paragraph::new(format!("inspiration\n{}", ""))
+        Paragraph::new(format!(
+            "inspiration\n{}", 
+            if app.character.get_inspiration() {
+                // "󱍢\n░▒▓█▓▒░"
+                // "\\\\//\n//\\\\"
+                // "◊◊◊"
+                // "/\\ /\\ /\\\n\\/ \\/ \\/"
+                // "╳╳╳╳╳╳╳\n╳╳╳╳╳╳╳"
+                // "⟪◊⟫\n     "
+                // " \n "
+                // "\n"
+                "  \n  "
+                // "  fancy \n  quote "
+            } else {
+                ""
+            }
+        ))
         .block(
             Block::bordered()
                 .title("")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .style(Style::default().fg(inspiration_colour).bg(Color::Reset))
         .centered(),
         area,
     );
@@ -221,13 +296,12 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
     ])
     .split(area);
 
-    let health_colour: Color;
-    match app.get_input_mode() {
-        InputMode::Normal => {
-            health_colour = Color::Cyan;
-        },
+    let health_colour = match app.get_input_mode() {
         InputMode::Damaging => {
-            health_colour = Color::Red;
+            Color::Red
+        },
+        _ => {
+            Color::Cyan
         },
     };
 
@@ -268,11 +342,10 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[2],
     );
 
-    let temp_hp: String;
-    if app.character.get_temp_hp() == 0 {
-        temp_hp = "--".to_string();
+    let temp_hp = if app.character.get_temp_hp() == 0 {
+        "--".to_string()
     } else {
-        temp_hp = app.character.get_temp_hp().to_string();
+        app.character.get_temp_hp().to_string()
     };
 
     frame.render_widget(
@@ -312,21 +385,69 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
     // SAVING THROWS
     frame.render_widget(
         Paragraph::new(
-            format!("{} str: {}   {} int: {}\n\
-            {} dex: {}   {} wis: {}\n\
-            {} con: {}   {} cha: {}\n\n\
+            format!("\n{} str: {: >+2}   {} int: {: >+2}\n\
+            {} dex: {: >+2}   {} wis: {: >+2}\n\
+            {} con: {: >+2}   {} cha: {: >+2}\n\n\
             saving throw modifiers", 
-            "○", "+3",
-            "○", "-1",
-            "○", "-1",
-            "●", "+3",
-            "○", "+2",
-            "●", "+5",
+            if app.character.get_prof_str() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_strength(), 
+                app.character.get_prof_str()
+            ),
+            if app.character.get_prof_int() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_int()
+            ),
+            if app.character.get_prof_dex() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_dexterity(), 
+                app.character.get_prof_dex()
+            ),
+            if app.character.get_prof_wis() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_wis()
+            ),
+            if app.character.get_prof_con() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_constitution(), 
+                app.character.get_prof_con()
+            ),
+            if app.character.get_prof_cha() {
+                "●" 
+            } else {
+                "○" 
+            },
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                app.character.get_prof_cha()
+            ),
         )
         ) 
         .block(
             Block::bordered()
-                .title("saving throws")
+                .title(" saving throws ")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
@@ -338,7 +459,7 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
     // SENSES
     frame.render_widget(
         Paragraph::new(
-            format!(" {: >2} passive wis (perception)\n \
+            format!("\n {: >2} passive wis (perception)\n \
             {: >2} passive int (investigation)\n \
             {: >2} passive wis (insight)\n\n \
             additional sense types", 
@@ -349,7 +470,7 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
         ) 
         .block(
             Block::bordered()
-                .title("senses")
+                .title(" senses ")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
@@ -367,7 +488,7 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
         ) 
         .block(
             Block::bordered()
-                .title("proficiecies & languages")
+                .title(" proficiencies & languages ")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
@@ -379,12 +500,156 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn second_middle(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(
-            format!("str: {}", 16)
-        ) 
+        Paragraph::new( format!("\n\
+            {} DEX Acrobatics      {: >+2}\n\
+            {} WIS Animal Handling {: >+2}\n\
+            {} INT Arcana          {: >+2}\n\
+            {} STR Athletics       {: >+2}\n\
+            {} CHA Deception       {: >+2}\n\
+            {} INT History         {: >+2}\n\
+            {} WIS Insight         {: >+2}\n\
+            {} CHA Intimidation    {: >+2}\n\
+            {} INT Investigation   {: >+2}\n\
+            {} WIS Medicine        {: >+2}\n\
+            {} INT Nature          {: >+2}\n\
+            {} WIS Perception      {: >+2}\n\
+            {} CHA Performance     {: >+2}\n\
+            {} CHA Persuasion      {: >+2}\n\
+            {} INT Religion        {: >+2}\n\
+            {} DEX Sleight of Hand {: >+2}\n\
+            {} DEX Stealth         {: >+2}\n\
+            {} WIS Survival        {: >+2}\n\n\
+            additional skills",
+            app.get_dot(
+                app.character.get_prof_acrobatics()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_dexterity(), 
+                app.character.get_prof_acrobatics()
+            ),
+            app.get_dot(
+                app.character.get_prof_animal_handling()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_animal_handling()
+            ),
+            app.get_dot(
+                app.character.get_prof_arcana()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_arcana()
+            ),
+            app.get_dot(
+                app.character.get_prof_athletics()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_strength(), 
+                app.character.get_prof_athletics()
+            ),
+            app.get_dot(
+                app.character.get_prof_deception()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                app.character.get_prof_deception()
+            ),
+            app.get_dot(
+                app.character.get_prof_history()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_history()
+            ),
+            app.get_dot(
+                app.character.get_prof_insight()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_insight()
+            ),
+            app.get_dot(
+                app.character.get_prof_intimidation()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                app.character.get_prof_intimidation()
+            ),
+            app.get_dot(
+                app.character.get_prof_investigation()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_investigation()
+            ),
+            app.get_dot(
+                app.character.get_prof_medicine()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_medicine()
+            ),
+            app.get_dot(
+                app.character.get_prof_nature()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_nature()
+            ),
+            app.get_dot(
+                app.character.get_prof_perception()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_perception()
+            ),
+            app.get_dot(
+                app.character.get_prof_performance()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                app.character.get_prof_performance()
+            ),
+            app.get_dot(
+                app.character.get_prof_persuasion()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_charisma(), 
+                app.character.get_prof_persuasion()
+            ),
+            app.get_dot(
+                app.character.get_prof_religion()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_intelligence(), 
+                app.character.get_prof_religion()
+            ),
+            app.get_dot(
+                app.character.get_prof_sleight_of_hand()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_dexterity(), 
+                app.character.get_prof_sleight_of_hand()
+            ),
+            app.get_dot(
+                app.character.get_prof_stealth()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_dexterity(), 
+                app.character.get_prof_stealth()
+            ),
+            app.get_dot(
+                app.character.get_prof_survival()
+            ),
+            app.character.calculate_modifier(
+                app.character.get_wisdom(), 
+                app.character.get_prof_survival()
+            ),
+        )) 
         .block(
             Block::bordered()
-                .title("skills")
+                .title(" skills ")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
@@ -420,9 +685,10 @@ pub fn second_right_top(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn second_right_top_1(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(
-            format!("initiative\n{}", "-1")
-        ) 
+        Paragraph::new(format!(
+            "initiative\n{: >+2}", 
+            app.character.get_initiative()
+        )) 
         .block(
             Block::bordered()
                 .title("")
@@ -437,9 +703,10 @@ pub fn second_right_top_1(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn second_right_top_2(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(
-            format!("armor\n{}\nclass", 19)
-        ) 
+        Paragraph::new(format!(
+            "armor\n{}\nclass", 
+            app.character.get_armor_class()
+        )) 
         .block(
             Block::bordered()
                 .title("")
@@ -455,12 +722,12 @@ pub fn second_right_top_2(frame: &mut Frame, app: &mut App, area: Rect) {
 pub fn second_right_top_3(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(
-            format!("{} fire\n{} disease", "r", "i")
+            app.character.get_defenses()
         ) 
         .block(
             Block::bordered()
-                .title("defenses")
-                .title_alignment(Alignment::Left)
+                .title(" defenses ")
+                .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
@@ -472,12 +739,12 @@ pub fn second_right_top_3(frame: &mut Frame, app: &mut App, area: Rect) {
 pub fn second_right_top_4(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(
-            "add active conditions"
+            app.character.get_conditions()
         ) 
         .block(
             Block::bordered()
-                .title("conditions")
-                .title_alignment(Alignment::Left)
+                .title(" conditions ")
+                .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
@@ -498,7 +765,7 @@ pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
         ))
         .block(
             Block::bordered()
-                .title("right")
+                .title(" right ")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )

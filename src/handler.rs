@@ -20,11 +20,17 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                         app.quit();
                     }
                 }
+                KeyCode::Char('f') => {
+                    app.character.load_character();
+                }
                 KeyCode::Esc => {
                     app.stop_input();
                 }
                 KeyCode::Char('d') => {
                     app.start_damaging();
+                }
+                KeyCode::Char('i') | KeyCode::Char('I') => {
+                    app.start_inspiration();
                 }
                 // Counter handlers
                 KeyCode::Up | KeyCode::Char('k') => {
@@ -43,6 +49,11 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                     app.clear_input();
                     app.stop_input();
                 },
+                KeyCode::Char('c') | KeyCode::Char('C') => {
+                    if key_event.modifiers == KeyModifiers::CONTROL {
+                        app.quit();
+                    }
+                }
                 KeyCode::Enter => app.submit_message(),
                 KeyCode::Char('-') => {
                     if app.get_input_length() == 0 {
@@ -71,6 +82,28 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 _ => {}
             }
 
+        },
+        InputMode::Inspiration => {
+            match key_event.code {
+                KeyCode::Esc => {
+                    app.clear_input();
+                    app.stop_input();
+                },
+                KeyCode::Char('c') | KeyCode::Char('C') => {
+                    if key_event.modifiers == KeyModifiers::CONTROL {
+                        app.quit();
+                    }
+                },
+                KeyCode::Char('i') => {
+                    app.character.set_inspiration(false);
+                    app.stop_input();
+                },
+                KeyCode::Char('I') => {
+                    app.character.set_inspiration(true);
+                    app.stop_input();
+                },
+                _ => {}
+            }
         },
     }
     Ok(())

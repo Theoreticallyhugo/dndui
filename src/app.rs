@@ -7,6 +7,7 @@ pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
 pub enum InputMode {
     Normal,
     Damaging,
+    Inspiration,
 }
 
 /// Application.
@@ -81,6 +82,10 @@ impl App {
         self.input_mode = InputMode::Damaging;
     }
 
+    pub fn start_inspiration(&mut self) {
+        self.input_mode = InputMode::Inspiration;
+    }
+
     pub fn move_cursor_left(&mut self) {
         let cursor_moved_left = self.cursor_position.saturating_sub(1);
         self.cursor_position = self.clamp_cursor(cursor_moved_left);
@@ -134,9 +139,17 @@ impl App {
 
     pub fn submit_message(&mut self) {
         // self.messages.push(self.input.clone());
-        self.character.add_damage(self.get_input().parse::<i8>().unwrap());
+        self.character.add_damage(self.get_input().parse::<i16>().unwrap());
         self.clear_input();
         self.stop_input();
+    }
+
+    pub fn get_dot(&self, infill: bool) -> &str {
+        if infill {
+            "●" 
+        } else {
+            "○" 
+        }
     }
 
     pub fn increment_counter(&mut self) {
