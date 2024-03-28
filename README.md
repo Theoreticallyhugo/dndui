@@ -13,3 +13,11 @@ src/
 ├── tui.rs     -> initializes/exits the terminal interface
 └── ui.rs      -> renders the widgets / UI
 ```
+
+## FAQ's
+
+- Is it any good?
+  Yes!
+
+- Sam, where are you from?
+  Cambridge, MA. We've told you so many times.
