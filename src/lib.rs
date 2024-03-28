@@ -15,3 +15,5 @@ pub mod handler;
 
 /// Character info 'database'
 pub mod character;
+
+pub mod help_ui;

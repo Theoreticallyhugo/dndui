@@ -27,10 +27,16 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                     app.stop_input();
                 }
                 KeyCode::Char('d') => {
-                    app.start_damaging();
+                    app.start_healing();
+                }
+                KeyCode::Char('t') => {
+                    app.start_temp_healing();
                 }
                 KeyCode::Char('i') | KeyCode::Char('I') => {
                     app.start_inspiration();
+                }
+                KeyCode::Char('?') => {
+                    app.enter_help_screen();
                 }
                 // Counter handlers
                 KeyCode::Up | KeyCode::Char('k') => {
@@ -43,7 +49,28 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 _ => {}
             }
         },
-        InputMode::Damaging => {
+        InputMode::HelpScreen => {
+            match key_event.code {
+                // Exit application on `q`
+                KeyCode::Char('q') | KeyCode::Esc => {
+                    app.leave_help_screen();
+                }
+                KeyCode::Char('c') | KeyCode::Char('C') => {
+                    if key_event.modifiers == KeyModifiers::CONTROL {
+                        app.quit();
+                    }
+                }
+                // Counter handlers
+                KeyCode::Up | KeyCode::Char('k') => {
+                    app.increment_counter();
+                }
+                KeyCode::Down | KeyCode::Char('j') => {
+                    app.decrement_counter();
+                }
+                _ => {}
+            }
+        },
+        InputMode::Healing => {
             match key_event.code {
                 KeyCode::Esc => {
                     app.clear_input();
@@ -81,7 +108,45 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 }
                 _ => {}
             }
-
+        },
+        InputMode::TempHealing => {
+            match key_event.code {
+                KeyCode::Esc => {
+                    app.clear_input();
+                    app.stop_input();
+                },
+                KeyCode::Char('c') | KeyCode::Char('C') => {
+                    if key_event.modifiers == KeyModifiers::CONTROL {
+                        app.quit();
+                    }
+                }
+                KeyCode::Enter => app.submit_message(),
+                KeyCode::Char('-') => {
+                    if app.get_input_length() == 0 {
+                        app.enter_char('-');
+                    }
+                }
+                KeyCode::Char('+') => {
+                    if app.get_input_length() == 0 {
+                        app.enter_char('+');
+                    }
+                }
+                KeyCode::Char(to_insert) => {
+                    if to_insert.is_ascii_digit() && app.get_input_length() < 6 {
+                        app.enter_char(to_insert);
+                    }
+                }
+                KeyCode::Backspace => {
+                    app.delete_char();
+                }
+                KeyCode::Left => {
+                    app.move_cursor_left();
+                }
+                KeyCode::Right => {
+                    app.move_cursor_right();
+                }
+                _ => {}
+            }
         },
         InputMode::Inspiration => {
             match key_event.code {

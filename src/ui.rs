@@ -10,6 +10,7 @@ use ratatui::{
 
 use crate::app::App;
 use crate::app::InputMode;
+use crate::help_ui::help_screen;
 
 
 /// Renders the user interface widgets.
@@ -18,16 +19,21 @@ pub fn render(app: &mut App, frame: &mut Frame) {
     // See the following resources:
     // - https://docs.rs/ratatui/latest/ratatui/widgets/index.html
     // - https://github.com/ratatui-org/ratatui/tree/master/examples
+    
+    if app.get_help_screen_shown() {
+        help_screen(frame, app, frame.size());
+    } else {
+        let layout = Layout::default()
+            .direction(Direction::Vertical)
+            .constraints([Constraint::Length(1), Constraint::Length(5), Constraint::Fill(1), Constraint::Length(1)])
+            .split(frame.size());
 
-    let layout = Layout::default()
-        .direction(Direction::Vertical)
-        .constraints([Constraint::Length(1), Constraint::Length(5), Constraint::Fill(1)])
-        .split(frame.size());
+        headline(frame, app, layout[0]);
+        first(frame, app, layout[1]);
+        second(frame, app, layout[2]);
+        colon_line(frame, app, layout[3]);
+    }
 
-    headline(frame, app, layout[0]);
-    first(frame, app, layout[1]);
-// sudo powermetrics --samplers gpu_power -i500 -n 1 | grep 'active residency' | sed 's/[^0-9.%]//g' | sed 's/[%].*$//g'
-    second(frame, app, layout[2]);
 }
 
 pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
@@ -49,6 +55,7 @@ pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[0],
     );
 
+    // TODO: r for short rest, R for long. highlight respective word and press again to lock in
     frame.render_widget(
         Paragraph::new("short rest   long rest   edit ")
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
@@ -296,8 +303,35 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
     ])
     .split(area);
 
-    let health_colour = match app.get_input_mode() {
-        InputMode::Damaging => {
+    // let current_colour = match app.get_input_mode() {
+    //     InputMode::Healing => {
+    //         Color::Red
+    //     },
+    //     _ => {
+    //         Color::Cyan
+    //     },
+    // };
+    //
+    let heal_damage_colour = match app.get_input_mode() {
+        InputMode::Healing | InputMode::TempHealing => {
+            Color::Red
+        },
+        _ => {
+            Color::Cyan
+        },
+    };
+
+    let current_colour = match app.get_input_mode() {
+        InputMode::Healing => {
+            Color::Red
+        },
+        _ => {
+            Color::Cyan
+        },
+    };
+
+    let temp_colour = match app.get_input_mode() {
+        InputMode::TempHealing => {
             Color::Red
         },
         _ => {
@@ -313,7 +347,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(health_colour).bg(Color::Reset))
+        .style(Style::default().fg(heal_damage_colour).bg(Color::Reset))
         .centered(),
         layout[0],
     );
@@ -325,7 +359,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(health_colour).bg(Color::Reset))
+        .style(Style::default().fg(current_colour).bg(Color::Reset))
         .centered(),
         layout[1],
     );
@@ -349,14 +383,14 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
     };
 
     frame.render_widget(
-        Paragraph::new(format!("temp\n{: >2}\nhp", temp_hp))
+        Paragraph::new(format!("temp\n{: >+2}\nhp", temp_hp))
         .block(
             Block::bordered()
                 .title("")
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .style(Style::default().fg(temp_colour).bg(Color::Reset))
         .centered(),
         layout[3],
     );
@@ -773,6 +807,15 @@ pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
         )
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
         .centered(),
+        area
+    )
+}
+
+pub fn colon_line(frame: &mut Frame, app: &mut App, area: Rect) {
+    frame.render_widget(
+        Paragraph::new(" press : for commands and ? for help")
+        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .left_aligned(),
         area
     )
 }

@@ -51,11 +51,11 @@ pub struct Character {
     /// HP 
     ///
     /// the characters current hp
-    current_hp: i16,
+    current_hp: i32,
     /// the characters max hp
-    max_hp: u16,
+    max_hp: u32,
     /// the characters temp hp
-    temp_hp: i16,
+    temp_hp: i32,
 
 }
 
@@ -304,15 +304,15 @@ impl Character {
         self.inspiration = new_value;
     }
 
-    pub fn get_current_hp(&self) -> i16 {
+    pub fn get_current_hp(&self) -> i32 {
         self.current_hp
     }
 
-    pub fn get_max_hp(&self) -> u16 {
+    pub fn get_max_hp(&self) -> u32 {
         self.max_hp
     }
 
-    pub fn get_temp_hp(&self) -> i16 {
+    pub fn get_temp_hp(&self) -> i32 {
         self.temp_hp
     }
 
@@ -336,7 +336,11 @@ impl Character {
         "add active conditions".to_string()
     }
 
-    pub fn add_damage(&mut self, damage: i16) {
-        self.current_hp += damage;
+    pub fn add_healing(&mut self, healing: i32) {
+        self.current_hp += healing;
+    }
+
+    pub fn add_temp_healing(&mut self, healing: i32) {
+        self.temp_hp += healing;
     }
 }

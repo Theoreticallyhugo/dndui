@@ -6,8 +6,10 @@ pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
 
 pub enum InputMode {
     Normal,
-    Damaging,
+    Healing,
+    TempHealing,
     Inspiration,
+    HelpScreen,
 }
 
 /// Application.
@@ -25,6 +27,8 @@ pub struct App {
     cursor_position: usize,
     /// database for charater
     pub character: Character,
+
+    help_screen_shown: bool,
 }
 
 impl Default for App {
@@ -36,6 +40,7 @@ impl Default for App {
             input: String::new(),
             cursor_position: 0,
             character: Character::new(),
+            help_screen_shown: false,
         }
     }
 }
@@ -74,12 +79,30 @@ impl App {
         self.input.len()
     }
 
+    pub fn get_help_screen_shown(&self) -> bool {
+        self.help_screen_shown
+    }
+
+    pub fn enter_help_screen(&mut self) {
+        self.input_mode = InputMode::HelpScreen;
+        self.help_screen_shown = true;
+    }
+
+    pub fn leave_help_screen(&mut self) {
+        self.input_mode = InputMode::Normal;
+        self.help_screen_shown = false;
+    }
+
     pub fn stop_input(&mut self) {
         self.input_mode = InputMode::Normal;
     }
 
-    pub fn start_damaging(&mut self) {
-        self.input_mode = InputMode::Damaging;
+    pub fn start_healing(&mut self) {
+        self.input_mode = InputMode::Healing;
+    }
+
+    pub fn start_temp_healing(&mut self) {
+        self.input_mode = InputMode::TempHealing;
     }
 
     pub fn start_inspiration(&mut self) {
@@ -139,7 +162,15 @@ impl App {
 
     pub fn submit_message(&mut self) {
         // self.messages.push(self.input.clone());
-        self.character.add_damage(self.get_input().parse::<i16>().unwrap());
+        match self.get_input_mode() {
+            InputMode::Healing => {
+                self.character.add_healing(self.get_input().parse::<i32>().unwrap());
+            },
+            InputMode::TempHealing => {
+                self.character.add_temp_healing(self.get_input().parse::<i32>().unwrap());
+            },
+            _ => {},
+        }
         self.clear_input();
         self.stop_input();
     }
