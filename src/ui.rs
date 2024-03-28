@@ -325,7 +325,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
                 .title_alignment(Alignment::Center)
                 .border_type(BorderType::Rounded),
         )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
+        .style(Style::default().fg(health_colour).bg(Color::Reset))
         .centered(),
         layout[1],
     );
@@ -481,11 +481,13 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
 
     // PROFICIECIES & LANGUAGES
     frame.render_widget(
-        Paragraph::new(
-            format!("{} passive wis (perception)\n\
-            {} passive int (investigation)\n\
-            {} passive wis (insight)", 11, 9, 11)
-        ) 
+        Paragraph::new(format!(
+            "\n armor\n {}\n\n weapons\n {}\n\n tools\n {}\n\n languages\n {}",
+            "Heavy Armor, Light Armor, \n Medium Armor, Shields",
+            "Martial Weapons, Simple Weapons",
+            "None",
+            "Common, Draconic, Dwarvish, Elvish",
+        )) 
         .block(
             Block::bordered()
                 .title(" proficiencies & languages ")
