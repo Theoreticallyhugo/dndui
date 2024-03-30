@@ -164,10 +164,10 @@ impl App {
         // self.messages.push(self.input.clone());
         match self.get_input_mode() {
             InputMode::Healing => {
-                self.character.add_healing(self.get_input().parse::<i32>().unwrap());
+                self.character.add_healing(self.get_input().parse::<i32>().unwrap_or(0));
             },
             InputMode::TempHealing => {
-                self.character.add_temp_healing(self.get_input().parse::<i32>().unwrap());
+                self.character.add_temp_healing(self.get_input().parse::<i32>().unwrap_or(0));
             },
             _ => {},
         }
