@@ -1,7 +1,7 @@
-use rat_simple_template::app::{App, AppResult};
-use rat_simple_template::event::{Event, EventHandler};
-use rat_simple_template::handler::{handle_key_events, handle_mouse_events};
-use rat_simple_template::tui::Tui;
+use dndui::app::{App, AppResult};
+use dndui::event::{Event, EventHandler};
+use dndui::handler::{handle_key_events, handle_mouse_events};
+use dndui::tui::Tui;
 use std::io;
 use ratatui::backend::CrosstermBackend;
 use ratatui::Terminal;

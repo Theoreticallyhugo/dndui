@@ -1,5 +1,5 @@
 [package]
-name = "rat-simple-template"
+name = "dndui"
 version = "0.1.0"
 authors = ["Theoreticallyhugo <me@theoreticallyhugo.com>"]
 license = "MIT"
