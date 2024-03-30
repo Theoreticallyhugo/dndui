@@ -380,9 +380,9 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn second(frame: &mut Frame, app: &mut App, area: Rect) {
     let layout = Layout::horizontal([
-        Constraint::Percentage(25),
-        Constraint::Percentage(25),
-        Constraint::Percentage(50),
+        Constraint::Length(35),
+        Constraint::Length(35),
+        Constraint::Percentage(100),
     ])
     .split(area);
     second_left(frame, app, layout[0]);
@@ -484,7 +484,7 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
             "Heavy Armor, Light Armor, \n Medium Armor, Shields",
             "Martial Weapons, Simple Weapons",
             "None",
-            "Common, Draconic, Dwarvish, Elvish",
+            "Common, Draconic, Dwarvish,\n Elvish",
         )) 
         .block(
             Block::bordered()
@@ -501,96 +501,114 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
 pub fn second_middle(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new( format!("\n\
-            {} DEX Acrobatics      {: >+2}\n\
-            {} WIS Animal Handling {: >+2}\n\
-            {} INT Arcana          {: >+2}\n\
-            {} STR Athletics       {: >+2}\n\
-            {} CHA Deception       {: >+2}\n\
-            {} INT History         {: >+2}\n\
-            {} WIS Insight         {: >+2}\n\
-            {} CHA Intimidation    {: >+2}\n\
-            {} INT Investigation   {: >+2}\n\
-            {} WIS Medicine        {: >+2}\n\
-            {} INT Nature          {: >+2}\n\
-            {} WIS Perception      {: >+2}\n\
-            {} CHA Performance     {: >+2}\n\
-            {} CHA Persuasion      {: >+2}\n\
-            {} INT Religion        {: >+2}\n\
-            {} DEX Sleight of Hand {: >+2}\n\
-            {} DEX Stealth         {: >+2}\n\
-            {} WIS Survival        {: >+2}\n\n\
+            {} DEX Acrobatics      {: >1} {: >+2}\n\
+            {} WIS Animal Handling {: >1} {: >+2}\n\
+            {} INT Arcana          {: >1} {: >+2}\n\
+            {} STR Athletics       {: >1} {: >+2}\n\
+            {} CHA Deception       {: >1} {: >+2}\n\
+            {} INT History         {: >1} {: >+2}\n\
+            {} WIS Insight         {: >1} {: >+2}\n\
+            {} CHA Intimidation    {: >1} {: >+2}\n\
+            {} INT Investigation   {: >1} {: >+2}\n\
+            {} WIS Medicine        {: >1} {: >+2}\n\
+            {} INT Nature          {: >1} {: >+2}\n\
+            {} WIS Perception      {: >1} {: >+2}\n\
+            {} CHA Performance     {: >1} {: >+2}\n\
+            {} CHA Persuasion      {: >1} {: >+2}\n\
+            {} INT Religion        {: >1} {: >+2}\n\
+            {} DEX Sleight of Hand {: >1} {: >+2}\n\
+            {} DEX Stealth         {: >1} {: >+2}\n\
+            {} WIS Survival        {: >1} {: >+2}\n\n\
             additional skills",
             app.get_dot(
                 app.character.get_acrobatics().0
             ),
+            app.get_advantage_letter(&app.character.get_acrobatics().2),
             app.character.get_acrobatics().1,
             app.get_dot(
                 app.character.get_animal_handling().0
             ),
+            app.get_advantage_letter(&app.character.get_animal_handling().2),
             app.character.get_animal_handling().1,
             app.get_dot(
                 app.character.get_arcana().0
             ),
+            app.get_advantage_letter(&app.character.get_arcana().2),
             app.character.get_arcana().1,
             app.get_dot(
                 app.character.get_athletics().0
             ),
+            app.get_advantage_letter(&app.character.get_athletics().2),
             app.character.get_athletics().1,
             app.get_dot(
                 app.character.get_deception().0
             ),
+            app.get_advantage_letter(&app.character.get_deception().2),
             app.character.get_deception().1,
             app.get_dot(
                 app.character.get_history().0
             ),
+            app.get_advantage_letter(&app.character.get_history().2),
             app.character.get_history().1,
             app.get_dot(
                 app.character.get_insight().0
             ),
+            app.get_advantage_letter(&app.character.get_insight().2),
             app.character.get_insight().1,
             app.get_dot(
                 app.character.get_intimidation().0
             ),
+            app.get_advantage_letter(&app.character.get_intimidation().2),
             app.character.get_intimidation().1,
             app.get_dot(
                 app.character.get_investigation().0
             ),
+            app.get_advantage_letter(&app.character.get_investigation().2),
             app.character.get_investigation().1,
             app.get_dot(
                 app.character.get_medicine().0
             ),
+            app.get_advantage_letter(&app.character.get_medicine().2),
             app.character.get_medicine().1,
             app.get_dot(
                 app.character.get_nature().0
             ),
+            app.get_advantage_letter(&app.character.get_nature().2),
             app.character.get_nature().1,
             app.get_dot(
                 app.character.get_perception().0
             ),
+            app.get_advantage_letter(&app.character.get_perception().2),
             app.character.get_perception().1,
             app.get_dot(
                 app.character.get_performance().0
             ),
+            app.get_advantage_letter(&app.character.get_performance().2),
             app.character.get_performance().1,
             app.get_dot(
                 app.character.get_persuasion().0
             ),
+            app.get_advantage_letter(&app.character.get_persuasion().2),
             app.character.get_persuasion().1,
             app.get_dot(
                 app.character.get_religion().0
             ),
+            app.get_advantage_letter(&app.character.get_religion().2),
             app.character.get_religion().1,
             app.get_dot(
                 app.character.get_sleight_of_hand().0
             ),
+            app.get_advantage_letter(&app.character.get_sleight_of_hand().2),
             app.character.get_sleight_of_hand().1,
             app.get_dot(
                 app.character.get_stealth().0
             ),
+            app.get_advantage_letter(&app.character.get_stealth().2),
             app.character.get_stealth().1,
             app.get_dot(
                 app.character.get_survival().0
             ),
+            app.get_advantage_letter(&app.character.get_survival().2),
             app.character.get_survival().1,
         )) 
         .block(
@@ -617,10 +635,10 @@ pub fn second_right(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn second_right_top(frame: &mut Frame, app: &mut App, area: Rect) {
     let layout = Layout::horizontal([
-        Constraint::Percentage(15),
-        Constraint::Percentage(15),
-        Constraint::Percentage(35),
-        Constraint::Percentage(35),
+        Constraint::Length(14),
+        Constraint::Length(11),
+        Constraint::Percentage(50),
+        Constraint::Percentage(50),
     ])
     .split(area);
     second_right_top_1(frame, app, layout[0]);

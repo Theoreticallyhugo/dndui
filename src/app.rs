@@ -1,5 +1,6 @@
 use std::error;
 use crate::character::Character;
+use crate::character::Advantage;
 
 /// Application result type.
 pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
@@ -180,6 +181,14 @@ impl App {
             "●" 
         } else {
             "○" 
+        }
+    }
+
+    pub fn get_advantage_letter(&self, advantage: &Advantage) -> &str {
+        match advantage {
+            Advantage::No => " ",
+            Advantage::Advantage => "A",
+            Advantage::Disadvantage => "D",
         }
     }
 

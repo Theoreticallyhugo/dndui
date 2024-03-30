@@ -425,6 +425,9 @@ impl Character {
         self.sleight_of_hand.1 = self.calculate_modifier(self.get_dexterity().0, self.sleight_of_hand.0);
         self.stealth.1 = self.calculate_modifier(self.get_dexterity().0, self.stealth.0);
         self.survival.1 = self.calculate_modifier(self.get_wisdom().0, self.survival.0);
+        // skill advantages 
+        // TODO: implement propper calculation for all skills
+        self.stealth.2 = Advantage::Disadvantage;
         // passive skills 
         // Here's how to determine a character's total for a passive check:
         // 10 + all modifiers that normally apply to the check If the character has advantage on
