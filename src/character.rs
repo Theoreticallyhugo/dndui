@@ -14,18 +14,18 @@ pub struct Character {
     // stats (ability_score, proficiency, modifier)
     // the modifier is a calculated value that doesnt need to be saved to a character file.
     //
-    /// score, proficiency, modifier
-    strength: (u8, bool, i8),
-    /// score, proficiency, modifier
-    dexterity: (u8, bool, i8),
-    /// score, proficiency, modifier
-    constitution: (u8, bool, i8),
-    /// score, proficiency, modifier
-    intelligence: (u8, bool, i8),
-    /// score, proficiency, modifier
-    wisdom: (u8, bool, i8),
-    /// score, proficiency, modifier
-    charisma: (u8, bool, i8),
+    /// score, proficiency, modifier, save
+    strength: (u8, bool, i8, i8),
+    /// score, proficiency, modifier, save
+    dexterity: (u8, bool, i8, i8),
+    /// score, proficiency, modifier, save
+    constitution: (u8, bool, i8, i8),
+    /// score, proficiency, modifier, save
+    intelligence: (u8, bool, i8, i8),
+    /// score, proficiency, modifier, save
+    wisdom: (u8, bool, i8, i8),
+    /// score, proficiency, modifier, save
+    charisma: (u8, bool, i8, i8),
     // skills (proficiency, modifier, advantage)
     // modifier and advantage are calculated values that dont need to be saved to a character file.
     //
@@ -101,12 +101,12 @@ impl Default for Character {
             class: "class".to_string(),
             level: 0,
             // stats
-            strength: (0, false, 0),
-            dexterity: (0, false, 0),
-            constitution: (0, false, 0),
-            intelligence: (0, false, 0),
-            wisdom: (0, false, 0),
-            charisma: (0, false, 0),
+            strength: (0, false, 0, 0),
+            dexterity: (0, false, 0, 0),
+            constitution: (0, false, 0, 0),
+            intelligence: (0, false, 0, 0),
+            wisdom: (0, false, 0, 0),
+            charisma: (0, false, 0, 0),
             // skills
             acrobatics: (false, 0, Advantage::No),
             animal_handling: (false, 0, Advantage::No),
@@ -159,12 +159,12 @@ impl Character {
         self.class = "paladin".to_string();
         self.level = 3;
         
-        self.strength = (16, false, 0);
-        self.dexterity = (8, false, 0);
-        self.constitution = (14, false, 0);
-        self.intelligence = (8, false, 0);
-        self.wisdom = (12, true, 0);
-        self.charisma = (16, true, 0);
+        self.strength = (16, false, 0, 0);
+        self.dexterity = (8, false, 0, 0);
+        self.constitution = (14, false, 0, 0);
+        self.intelligence = (8, false, 0, 0);
+        self.wisdom = (12, true, 0, 0);
+        self.charisma = (16, true, 0, 0);
         // skills
         self.acrobatics.0 = false;
         self.animal_handling.0 = true;
@@ -214,28 +214,28 @@ impl Character {
 
     // stats
     
-    /// returns: score, proficiency, modifier
-    pub fn get_strength(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_strength(&self) -> (u8, bool, i8, i8) {
         self.strength
     }
-    /// returns: score, proficiency, modifier
-    pub fn get_dexterity(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_dexterity(&self) -> (u8, bool, i8, i8) {
         self.dexterity
     }
-    /// returns: score, proficiency, modifier
-    pub fn get_constitution(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_constitution(&self) -> (u8, bool, i8, i8) {
         self.constitution
     }
-    /// returns: score, proficiency, modifier
-    pub fn get_intelligence(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_intelligence(&self) -> (u8, bool, i8, i8) {
         self.intelligence
     }
-    /// returns: score, proficiency, modifier
-    pub fn get_wisdom(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_wisdom(&self) -> (u8, bool, i8, i8) {
         self.wisdom
     }
-    /// returns: score, proficiency, modifier
-    pub fn get_charisma(&self) -> (u8, bool, i8) {
+    /// returns: score, proficiency, modifier, save
+    pub fn get_charisma(&self) -> (u8, bool, i8, i8) {
         self.charisma
     }
 
@@ -393,12 +393,19 @@ impl Character {
     /// any variable value needs to be reset here.
     pub fn recalculate(&mut self) {
         // ability modifiers
-        self.strength.2 = self.calculate_modifier(self.strength.0, self.strength.1);
-        self.dexterity.2 = self.calculate_modifier(self.dexterity.0, self.dexterity.1);
-        self.constitution.2 = self.calculate_modifier(self.constitution.0, self.constitution.1);
-        self.intelligence.2 = self.calculate_modifier(self.intelligence.0, self.intelligence.1);
-        self.wisdom.2 = self.calculate_modifier(self.wisdom.0, self.wisdom.1);
-        self.charisma.2 = self.calculate_modifier(self.charisma.0, self.charisma.1);
+        self.strength.2 = self.calculate_modifier(self.strength.0, false);
+        self.dexterity.2 = self.calculate_modifier(self.dexterity.0, false);
+        self.constitution.2 = self.calculate_modifier(self.constitution.0, false);
+        self.intelligence.2 = self.calculate_modifier(self.intelligence.0, false);
+        self.wisdom.2 = self.calculate_modifier(self.wisdom.0, false);
+        self.charisma.2 = self.calculate_modifier(self.charisma.0, false);
+        // ability saves
+        self.strength.3 = self.calculate_modifier(self.strength.0, self.strength.1);
+        self.dexterity.3 = self.calculate_modifier(self.dexterity.0, self.dexterity.1);
+        self.constitution.3 = self.calculate_modifier(self.constitution.0, self.constitution.1);
+        self.intelligence.3 = self.calculate_modifier(self.intelligence.0, self.intelligence.1);
+        self.wisdom.3 = self.calculate_modifier(self.wisdom.0, self.wisdom.1);
+        self.charisma.3 = self.calculate_modifier(self.charisma.0, self.charisma.1);
         // skill modifiers 
         self.acrobatics.1 = self.calculate_modifier(self.dexterity.0, self.acrobatics.0);
         self.animal_handling.1 = self.calculate_modifier(self.get_wisdom().0, self.animal_handling.0);

@@ -410,37 +410,37 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
             } else {
                 "○" 
             },
-            app.character.get_strength().2, 
+            app.character.get_strength().3, 
             if app.character.get_intelligence().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_intelligence().2, 
+            app.character.get_intelligence().3, 
             if app.character.get_dexterity().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_dexterity().2, 
+            app.character.get_dexterity().3, 
             if app.character.get_wisdom().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_wisdom().2, 
+            app.character.get_wisdom().3, 
             if app.character.get_constitution().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_constitution().2, 
+            app.character.get_constitution().3, 
             if app.character.get_charisma().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_charisma().2, 
+            app.character.get_charisma().3, 
         )
         ) 
         .block(
