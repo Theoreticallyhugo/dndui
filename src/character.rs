@@ -1,17 +1,20 @@
 // use std::error;
 
+#[derive(Debug, Clone, Copy)]
 pub enum Advantage {
     No,
     Advantage,
     Disadvantage,
 }
 
+#[derive(Debug)]
 pub struct Character {
     name: String,
     race: String,
     class: String,
     level: u8,
-    // stats (ability_score, proficiency, modifier)
+
+    // abilities (ability_score, proficiency, modifier)
     // the modifier is a calculated value that doesnt need to be saved to a character file.
     //
     /// score, proficiency, modifier, save
@@ -26,6 +29,7 @@ pub struct Character {
     wisdom: (u8, bool, i8, i8),
     /// score, proficiency, modifier, save
     charisma: (u8, bool, i8, i8),
+
     // skills (proficiency, modifier, advantage)
     // modifier and advantage are calculated values that dont need to be saved to a character file.
     //

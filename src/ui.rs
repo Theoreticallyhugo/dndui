@@ -523,92 +523,92 @@ pub fn second_middle(frame: &mut Frame, app: &mut App, area: Rect) {
             app.get_dot(
                 app.character.get_acrobatics().0
             ),
-            app.get_advantage_letter(&app.character.get_acrobatics().2),
+            app.get_advantage_letter(app.character.get_acrobatics().2),
             app.character.get_acrobatics().1,
             app.get_dot(
                 app.character.get_animal_handling().0
             ),
-            app.get_advantage_letter(&app.character.get_animal_handling().2),
+            app.get_advantage_letter(app.character.get_animal_handling().2),
             app.character.get_animal_handling().1,
             app.get_dot(
                 app.character.get_arcana().0
             ),
-            app.get_advantage_letter(&app.character.get_arcana().2),
+            app.get_advantage_letter(app.character.get_arcana().2),
             app.character.get_arcana().1,
             app.get_dot(
                 app.character.get_athletics().0
             ),
-            app.get_advantage_letter(&app.character.get_athletics().2),
+            app.get_advantage_letter(app.character.get_athletics().2),
             app.character.get_athletics().1,
             app.get_dot(
                 app.character.get_deception().0
             ),
-            app.get_advantage_letter(&app.character.get_deception().2),
+            app.get_advantage_letter(app.character.get_deception().2),
             app.character.get_deception().1,
             app.get_dot(
                 app.character.get_history().0
             ),
-            app.get_advantage_letter(&app.character.get_history().2),
+            app.get_advantage_letter(app.character.get_history().2),
             app.character.get_history().1,
             app.get_dot(
                 app.character.get_insight().0
             ),
-            app.get_advantage_letter(&app.character.get_insight().2),
+            app.get_advantage_letter(app.character.get_insight().2),
             app.character.get_insight().1,
             app.get_dot(
                 app.character.get_intimidation().0
             ),
-            app.get_advantage_letter(&app.character.get_intimidation().2),
+            app.get_advantage_letter(app.character.get_intimidation().2),
             app.character.get_intimidation().1,
             app.get_dot(
                 app.character.get_investigation().0
             ),
-            app.get_advantage_letter(&app.character.get_investigation().2),
+            app.get_advantage_letter(app.character.get_investigation().2),
             app.character.get_investigation().1,
             app.get_dot(
                 app.character.get_medicine().0
             ),
-            app.get_advantage_letter(&app.character.get_medicine().2),
+            app.get_advantage_letter(app.character.get_medicine().2),
             app.character.get_medicine().1,
             app.get_dot(
                 app.character.get_nature().0
             ),
-            app.get_advantage_letter(&app.character.get_nature().2),
+            app.get_advantage_letter(app.character.get_nature().2),
             app.character.get_nature().1,
             app.get_dot(
                 app.character.get_perception().0
             ),
-            app.get_advantage_letter(&app.character.get_perception().2),
+            app.get_advantage_letter(app.character.get_perception().2),
             app.character.get_perception().1,
             app.get_dot(
                 app.character.get_performance().0
             ),
-            app.get_advantage_letter(&app.character.get_performance().2),
+            app.get_advantage_letter(app.character.get_performance().2),
             app.character.get_performance().1,
             app.get_dot(
                 app.character.get_persuasion().0
             ),
-            app.get_advantage_letter(&app.character.get_persuasion().2),
+            app.get_advantage_letter(app.character.get_persuasion().2),
             app.character.get_persuasion().1,
             app.get_dot(
                 app.character.get_religion().0
             ),
-            app.get_advantage_letter(&app.character.get_religion().2),
+            app.get_advantage_letter(app.character.get_religion().2),
             app.character.get_religion().1,
             app.get_dot(
                 app.character.get_sleight_of_hand().0
             ),
-            app.get_advantage_letter(&app.character.get_sleight_of_hand().2),
+            app.get_advantage_letter(app.character.get_sleight_of_hand().2),
             app.character.get_sleight_of_hand().1,
             app.get_dot(
                 app.character.get_stealth().0
             ),
-            app.get_advantage_letter(&app.character.get_stealth().2),
+            app.get_advantage_letter(app.character.get_stealth().2),
             app.character.get_stealth().1,
             app.get_dot(
                 app.character.get_survival().0
             ),
-            app.get_advantage_letter(&app.character.get_survival().2),
+            app.get_advantage_letter(app.character.get_survival().2),
             app.character.get_survival().1,
         )) 
         .block(

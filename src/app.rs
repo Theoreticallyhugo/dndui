@@ -5,6 +5,7 @@ use crate::character::Advantage;
 /// Application result type.
 pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
 
+#[derive(Debug, Clone, Copy)]
 pub enum InputMode {
     Normal,
     Healing,
@@ -14,7 +15,7 @@ pub enum InputMode {
 }
 
 /// Application.
-// #[derive(Debug)]
+#[derive(Debug)]
 pub struct App {
     /// Is the application running?
     running: bool,
@@ -68,8 +69,8 @@ impl App {
         self.running
     }
 
-    pub fn get_input_mode(&self) -> &InputMode {
-        &self.input_mode
+    pub fn get_input_mode(&self) -> InputMode {
+        self.input_mode
     }
 
     pub fn get_input(&self) -> &String {
@@ -184,7 +185,7 @@ impl App {
         }
     }
 
-    pub fn get_advantage_letter(&self, advantage: &Advantage) -> &str {
+    pub fn get_advantage_letter(&self, advantage: Advantage) -> &str {
         match advantage {
             Advantage::No => " ",
             Advantage::Advantage => "A",
