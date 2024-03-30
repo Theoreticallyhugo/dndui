@@ -21,3 +21,13 @@ src/
 
 - Sam, where are you from?
   Cambridge, MA. We've told you so many times.
+
+## roadmap:
+| Feature                                                      | Status |
+| ------------------------------------------------------------ | ------ |
+| bottom line with vim-like functionality for colon commands   | WIP    |
+| Help screen with all key bindings, accessible through ?      | WIP    |
+| switch to toml view of data if window too narrow             | ---    |
+| add long and shortrest feature with R and r respectively     | ---    |
+| add left-arrow and right-arrow, as well as h and l for switching between bot right windows. add down-arrow and up-arrow, as well as j and k for scrolling through these windows. (remember scrolling for each page?) | ---    |
+| Calculate AC properly                                        | ---    |
