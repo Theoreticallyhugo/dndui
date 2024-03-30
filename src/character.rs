@@ -11,53 +11,37 @@ pub struct Character {
     race: String,
     class: String,
     level: u8,
-    /// stats (ability_score, proficiency)
+    /// stats (ability_score, proficiency, modifier)
+    /// the modifier is a calculated value that doesnt need to be saved to a character file.
     ///
-    strength: (u8, bool),
-    dexterity: (u8, bool),
-    constitution: (u8, bool),
-    intelligence: (u8, bool),
-    wisdom: (u8, bool),
-    charisma: (u8, bool),
-    /// skills 
+    strength: (u8, bool, i8),
+    dexterity: (u8, bool, i8),
+    constitution: (u8, bool, i8),
+    intelligence: (u8, bool, i8),
+    wisdom: (u8, bool, i8),
+    charisma: (u8, bool, i8),
+    /// skills (proficiency, modifier, advantage)
+    /// modifier and advantage are calculated values that dont need to be saved to a character file.
     ///
-    proficiency_acrobatics: bool,
-    proficiency_animal_handling: bool,
-    proficiency_arcana: bool,
-    proficiency_athletics: bool,
-    proficiency_deception: bool,
-    proficiency_history: bool,
-    proficiency_insight: bool,
-    proficiency_intimidation: bool,
-    proficiency_investigation: bool,
-    proficiency_medicine: bool,
-    proficiency_nature: bool,
-    proficiency_perception: bool,
-    proficiency_performance: bool,
-    proficiency_persuasion: bool,
-    proficiency_religion: bool,
-    proficiency_sleight_of_hand: bool,
-    proficiency_stealth: bool,
-    proficiency_survival: bool,
+    acrobatics: (bool, i8, Advantage),
+    animal_handling: (bool, i8, Advantage),
+    arcana: (bool, i8, Advantage),
+    athletics: (bool, i8, Advantage),
+    deception: (bool, i8, Advantage),
+    history: (bool, i8, Advantage),
+    insight: (bool, i8, Advantage),
+    intimidation: (bool, i8, Advantage),
+    investigation: (bool, i8, Advantage),
+    medicine: (bool, i8, Advantage),
+    nature: (bool, i8, Advantage),
+    perception: (bool, i8, Advantage),
+    performance: (bool, i8, Advantage),
+    persuasion: (bool, i8, Advantage),
+    religion: (bool, i8, Advantage),
+    sleight_of_hand: (bool, i8, Advantage),
+    stealth: (bool, i8, Advantage),
+    survival: (bool, i8, Advantage),
 
-    // advantage_acrobatics: Advantage,
-    // advantage_animal_handling: Advantage,
-    // advantage_arcana: Advantage,
-    // advantage_athletics: Advantage,
-    // advantage_deception: Advantage,
-    // advantage_history: Advantage,
-    // advantage_insight: Advantage,
-    // advantage_intimidation: Advantage,
-    // advantage_investigation: Advantage,
-    // advantage_medicine: Advantage,
-    // advantage_nature: Advantage,
-    // advantage_perception: Advantage,
-    // advantage_performance: Advantage,
-    // advantage_persuasion: Advantage,
-    // advantage_religion: Advantage,
-    // advantage_sleight_of_hand: Advantage,
-    // advantage_stealth: Advantage,
-    // advantage_survival: Advantage,
     /// stuff
     ///
     /// proficiency
@@ -85,50 +69,31 @@ impl Default for Character {
             class: "class".to_string(),
             level: 0,
             // stats
-            strength: (0, false),
-            dexterity: (0, false),
-            constitution: (0, false),
-            intelligence: (0, false),
-            wisdom: (0, false),
-            charisma: (0, false),
+            strength: (0, false, 0),
+            dexterity: (0, false, 0),
+            constitution: (0, false, 0),
+            intelligence: (0, false, 0),
+            wisdom: (0, false, 0),
+            charisma: (0, false, 0),
             // skills
-            proficiency_acrobatics: false,
-            proficiency_animal_handling: false,
-            proficiency_arcana: false,
-            proficiency_athletics: false,
-            proficiency_deception: false,
-            proficiency_history: false,
-            proficiency_insight: false,
-            proficiency_intimidation: false,
-            proficiency_investigation: false,
-            proficiency_medicine: false,
-            proficiency_nature: false,
-            proficiency_perception: false,
-            proficiency_performance: false,
-            proficiency_persuasion: false,
-            proficiency_religion: false,
-            proficiency_sleight_of_hand: false,
-            proficiency_stealth: false,
-            proficiency_survival: false,
-
-            // advantage_acrobatics: Advantage::No,
-            // advantage_animal_handling: Advantage::No,
-            // advantage_arcana: Advantage::No,
-            // advantage_athletics: Advantage::No,
-            // advantage_deception: Advantage::No,
-            // advantage_history: Advantage::No,
-            // advantage_insight: Advantage::No,
-            // advantage_intimidation: Advantage::No,
-            // advantage_investigation: Advantage::No,
-            // advantage_medicine: Advantage::No,
-            // advantage_nature: Advantage::No,
-            // advantage_perception: Advantage::No,
-            // advantage_performance: Advantage::No,
-            // advantage_persuasion: Advantage::No,
-            // advantage_religion: Advantage::No,
-            // advantage_sleight_of_hand: Advantage::No,
-            // advantage_stealth: Advantage::No,
-            // advantage_survival: Advantage::No,
+            acrobatics: (false, 0, Advantage::No),
+            animal_handling: (false, 0, Advantage::No),
+            arcana: (false, 0, Advantage::No),
+            athletics: (false, 0, Advantage::No),
+            deception: (false, 0, Advantage::No),
+            history: (false, 0, Advantage::No),
+            insight: (false, 0, Advantage::No),
+            intimidation: (false, 0, Advantage::No),
+            investigation: (false, 0, Advantage::No),
+            medicine: (false, 0, Advantage::No),
+            nature: (false, 0, Advantage::No),
+            perception: (false, 0, Advantage::No),
+            performance: (false, 0, Advantage::No),
+            persuasion: (false, 0, Advantage::No),
+            religion: (false, 0, Advantage::No),
+            sleight_of_hand: (false, 0, Advantage::No),
+            stealth: (false, 0, Advantage::No),
+            survival: (false, 0, Advantage::No),
 
             proficiency: 0,
 
@@ -156,31 +121,31 @@ impl Character {
         self.class = "paladin".to_string();
         self.level = 3;
         
-        self.strength = (16, false);
-        self.dexterity = (8, false);
-        self.constitution = (14, false);
-        self.intelligence = (8, false);
-        self.wisdom = (12, true);
-        self.charisma = (16, true);
+        self.strength = (16, false, 0);
+        self.dexterity = (8, false, 0);
+        self.constitution = (14, false, 0);
+        self.intelligence = (8, false, 0);
+        self.wisdom = (12, true, 0);
+        self.charisma = (16, true, 0);
         // skills
-        self.proficiency_acrobatics = false;
-        self.proficiency_animal_handling = true;
-        self.proficiency_arcana = false;
-        self.proficiency_athletics = true;
-        self.proficiency_deception = false;
-        self.proficiency_history = false;
-        self.proficiency_insight = false;
-        self.proficiency_intimidation = true;
-        self.proficiency_investigation = false;
-        self.proficiency_medicine = false;
-        self.proficiency_nature = false;
-        self.proficiency_perception = false;
-        self.proficiency_performance = false;
-        self.proficiency_persuasion = true;
-        self.proficiency_religion = false;
-        self.proficiency_sleight_of_hand = false;
-        self.proficiency_stealth = false;
-        self.proficiency_survival = false;
+        self.acrobatics.0 = false;
+        self.animal_handling.0 = true;
+        self.arcana.0 = false;
+        self.athletics.0 = true;
+        self.deception.0 = false;
+        self.history.0 = false;
+        self.insight.0 = false;
+        self.intimidation.0 = true;
+        self.investigation.0 = false;
+        self.medicine.0 = false;
+        self.nature.0 = false;
+        self.perception.0 = false;
+        self.performance.0 = false;
+        self.persuasion.0 = true;
+        self.religion.0 = false;
+        self.sleight_of_hand.0 = false;
+        self.stealth.0 = false;
+        self.survival.0 = false;
 
         self.proficiency = 2;
         
@@ -191,6 +156,9 @@ impl Character {
         self.current_hp = 28;
         self.max_hp = 28;
         self.temp_hp = 0;
+
+        // make sure to calculate everything after loading
+        self.recalculate();
     }
 
     pub fn get_name(&self) -> &String {
@@ -206,98 +174,87 @@ impl Character {
         self.level
     }
 
-    /// stats
-    pub fn get_strength(&self) -> u8 {
-        self.strength.0
+    // stats
+    
+    /// returns: score, proficiency, modifier
+    pub fn get_strength(&self) -> (u8, bool, i8) {
+        self.strength
     }
-    pub fn get_dexterity(&self) -> u8 {
-        self.dexterity.0
+    /// returns: score, proficiency, modifier
+    pub fn get_dexterity(&self) -> (u8, bool, i8) {
+        self.dexterity
     }
-    pub fn get_constitution(&self) -> u8 {
-        self.constitution.0
+    /// returns: score, proficiency, modifier
+    pub fn get_constitution(&self) -> (u8, bool, i8) {
+        self.constitution
     }
-    pub fn get_intelligence(&self) -> u8 {
-        self.intelligence.0
+    /// returns: score, proficiency, modifier
+    pub fn get_intelligence(&self) -> (u8, bool, i8) {
+        self.intelligence
     }
-    pub fn get_wisdom(&self) -> u8 {
-        self.wisdom.0
+    /// returns: score, proficiency, modifier
+    pub fn get_wisdom(&self) -> (u8, bool, i8) {
+        self.wisdom
     }
-    pub fn get_charisma(&self) -> u8 {
-        self.charisma.0
+    /// returns: score, proficiency, modifier
+    pub fn get_charisma(&self) -> (u8, bool, i8) {
+        self.charisma
     }
-    /// PROFICIENRCY STATS
-    pub fn get_prof_str(&self) -> bool {
-        self.strength.1
-    }
-    pub fn get_prof_dex(&self) -> bool {
-        self.dexterity.1
-    }
-    pub fn get_prof_con(&self) -> bool {
-        self.constitution.1
-    }
-    pub fn get_prof_int(&self) -> bool {
-        self.intelligence.1
-    }
-    pub fn get_prof_wis(&self) -> bool {
-        self.wisdom.1
-    }
-    pub fn get_prof_cha(&self) -> bool {
-        self.charisma.1
-    }
+
     // PROFICIENCY SKILLS
-    pub fn get_prof_acrobatics(&self) -> bool {
-        self.proficiency_acrobatics
+    pub fn get_prof_acrobatics(&self) -> &(bool, i8, Advantage) {
+        &self.acrobatics
     }
-    pub fn get_prof_animal_handling(&self) -> bool {
-        self.proficiency_animal_handling
+    pub fn get_prof_animal_handling(&self) -> &(bool, i8, Advantage) {
+        &self.animal_handling
     }
-    pub fn get_prof_arcana(&self) -> bool {
-        self.proficiency_arcana
+    pub fn get_prof_arcana(&self) -> &(bool, i8, Advantage) {
+        &self.arcana
     }
-    pub fn get_prof_athletics(&self) -> bool {
-        self.proficiency_athletics
+    pub fn get_prof_athletics(&self) -> &(bool, i8, Advantage) {
+        &self.athletics
     }
-    pub fn get_prof_deception(&self) -> bool {
-        self.proficiency_deception
+    pub fn get_prof_deception(&self) -> &(bool, i8, Advantage) {
+        &self.deception
     }
-    pub fn get_prof_history(&self) -> bool {
-        self.proficiency_history
+    pub fn get_prof_history(&self) -> &(bool, i8, Advantage) {
+        &self.history
     }
-    pub fn get_prof_insight(&self) -> bool {
-        self.proficiency_insight
+    pub fn get_prof_insight(&self) -> &(bool, i8, Advantage) {
+        &self.insight
     }
-    pub fn get_prof_intimidation(&self) -> bool {
-        self.proficiency_intimidation
+    pub fn get_prof_intimidation(&self) -> &(bool, i8, Advantage) {
+        &self.intimidation
     }
-    pub fn get_prof_investigation(&self) -> bool {
-        self.proficiency_investigation
+    pub fn get_prof_investigation(&self) -> &(bool, i8, Advantage) {
+        &self.investigation
     }
-    pub fn get_prof_medicine(&self) -> bool {
-        self.proficiency_medicine
+    pub fn get_prof_medicine(&self) -> &(bool, i8, Advantage) {
+        &self.medicine
     }
-    pub fn get_prof_nature(&self) -> bool {
-        self.proficiency_nature
+    pub fn get_prof_nature(&self) -> &(bool, i8, Advantage) {
+        &self.nature
     }
-    pub fn get_prof_perception(&self) -> bool {
-        self.proficiency_perception
+    pub fn get_prof_perception(&self) -> &(bool, i8, Advantage) {
+        &self.perception
     }
-    pub fn get_prof_performance(&self) -> bool {
-        self.proficiency_performance
+    pub fn get_prof_performance(&self) -> &(bool, i8, Advantage) {
+        &self.performance
     }
-    pub fn get_prof_persuasion(&self) -> bool {
-        self.proficiency_persuasion
+    pub fn get_prof_persuasion(&self) -> &(bool, i8, Advantage) {
+        &self.persuasion
     }
-    pub fn get_prof_religion(&self) -> bool {
-        self.proficiency_religion
+    pub fn get_prof_religion(&self) -> &(bool, i8, Advantage) {
+        &self.religion
     }
-    pub fn get_prof_sleight_of_hand(&self) -> bool {
-        self.proficiency_sleight_of_hand
+    pub fn get_prof_sleight_of_hand(&self) -> &(bool, i8, Advantage) {
+        &self.sleight_of_hand
     }
-    pub fn get_prof_stealth(&self) -> bool {
-        self.proficiency_stealth
+    pub fn get_prof_stealth(&self) -> &(bool, i8, Advantage) {
+        &self.stealth
     }
-    pub fn get_prof_survival(&self) -> bool {
-        self.proficiency_survival
+    pub fn get_prof_survival(&self) -> &(bool, i8, Advantage) {
+        &self.survival
     }
 
     pub fn calculate_modifier(&self, skill: u8, proficient: bool) -> i8 {
@@ -369,6 +326,15 @@ impl Character {
 
     pub fn recalculate(&mut self) {
         // ability modifiers
+        self.strength.2 = self.calculate_modifier(self.strength.0, self.strength.1);
+        self.dexterity.2 = self.calculate_modifier(self.dexterity.0, self.dexterity.1);
+        self.constitution.2 = self.calculate_modifier(self.constitution.0, self.constitution.1);
+        self.intelligence.2 = self.calculate_modifier(self.intelligence.0, self.intelligence.1);
+        self.wisdom.2 = self.calculate_modifier(self.wisdom.0, self.wisdom.1);
+        self.charisma.2 = self.calculate_modifier(self.charisma.0, self.charisma.1);
+        // skill modifiers 
+        self.acrobatics.1 = self.calculate_modifier(self.dexterity.0, self.acrobatics.0);
+
         // armor class 
         // initiative 
         // skill advantages (i.e. when equipping heavy armour)
