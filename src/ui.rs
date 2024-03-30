@@ -94,10 +94,7 @@ pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "strength\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_strength().0, 
-                false
-            ), 
+            app.character.get_strength().2, 
             app.character.get_strength().0
         ))
         .block(
@@ -116,10 +113,7 @@ pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "dexterity\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_dexterity().0, 
-                false
-            ), 
+            app.character.get_dexterity().2, 
             app.character.get_dexterity().0
         ))
         .block(
@@ -138,10 +132,7 @@ pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "constitution\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_constitution().0, 
-                false
-            ), 
+            app.character.get_constitution().2, 
             app.character.get_constitution().0
         ))
         .block(
@@ -160,10 +151,7 @@ pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "intelligence\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                false
-            ), 
+            app.character.get_intelligence().2, 
             app.character.get_intelligence().0
         ))
         .block(
@@ -182,10 +170,7 @@ pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "wisdom\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                false
-            ), 
+            app.character.get_wisdom().2, 
             app.character.get_wisdom().0
         ))
         .block(
@@ -204,10 +189,7 @@ pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "charisma\n{: >+2}\n{: >2}", 
-            app.character.calculate_modifier(
-                app.character.get_charisma().0, 
-                false
-            ), 
+            app.character.get_charisma().2, 
             app.character.get_charisma().0
         ))
         .block(
@@ -479,9 +461,9 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
             {: >2} passive int (investigation)\n \
             {: >2} passive wis (insight)\n\n \
             additional sense types", 
-            11, 
-            9, 
-            11
+            app.character.get_passive_perception(), 
+            app.character.get_passive_investigation(), 
+            app.character.get_passive_insight(), 
         )
         ) 
         .block(
@@ -539,131 +521,77 @@ pub fn second_middle(frame: &mut Frame, app: &mut App, area: Rect) {
             {} WIS Survival        {: >+2}\n\n\
             additional skills",
             app.get_dot(
-                app.character.get_prof_acrobatics().0
+                app.character.get_acrobatics().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_dexterity().0, 
-                app.character.get_prof_acrobatics().0
-            ),
+            app.character.get_acrobatics().1,
             app.get_dot(
-                app.character.get_prof_animal_handling().0
+                app.character.get_animal_handling().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                app.character.get_prof_animal_handling().0
-            ),
+            app.character.get_animal_handling().1,
             app.get_dot(
-                app.character.get_prof_arcana().0
+                app.character.get_arcana().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                app.character.get_prof_arcana().0
-            ),
+            app.character.get_arcana().1,
             app.get_dot(
-                app.character.get_prof_athletics().0
+                app.character.get_athletics().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_strength().0, 
-                app.character.get_prof_athletics().0
-            ),
+            app.character.get_athletics().1,
             app.get_dot(
-                app.character.get_prof_deception().0
+                app.character.get_deception().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_charisma().0, 
-                app.character.get_prof_deception().0
-            ),
+            app.character.get_deception().1,
             app.get_dot(
-                app.character.get_prof_history().0
+                app.character.get_history().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                app.character.get_prof_history().0
-            ),
+            app.character.get_history().1,
             app.get_dot(
-                app.character.get_prof_insight().0
+                app.character.get_insight().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                app.character.get_prof_insight().0
-            ),
+            app.character.get_insight().1,
             app.get_dot(
-                app.character.get_prof_intimidation().0
+                app.character.get_intimidation().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_charisma().0, 
-                app.character.get_prof_intimidation().0
-            ),
+            app.character.get_intimidation().1,
             app.get_dot(
-                app.character.get_prof_investigation().0
+                app.character.get_investigation().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                app.character.get_prof_investigation().0
-            ),
+            app.character.get_investigation().1,
             app.get_dot(
-                app.character.get_prof_medicine().0
+                app.character.get_medicine().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                app.character.get_prof_medicine().0
-            ),
+            app.character.get_medicine().1,
             app.get_dot(
-                app.character.get_prof_nature().0
+                app.character.get_nature().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                app.character.get_prof_nature().0
-            ),
+            app.character.get_nature().1,
             app.get_dot(
-                app.character.get_prof_perception().0
+                app.character.get_perception().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                app.character.get_prof_perception().0
-            ),
+            app.character.get_perception().1,
             app.get_dot(
-                app.character.get_prof_performance().0
+                app.character.get_performance().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_charisma().0, 
-                app.character.get_prof_performance().0
-            ),
+            app.character.get_performance().1,
             app.get_dot(
-                app.character.get_prof_persuasion().0
+                app.character.get_persuasion().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_charisma().0, 
-                app.character.get_prof_persuasion().0
-            ),
+            app.character.get_persuasion().1,
             app.get_dot(
-                app.character.get_prof_religion().0
+                app.character.get_religion().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_intelligence().0, 
-                app.character.get_prof_religion().0
-            ),
+            app.character.get_religion().1,
             app.get_dot(
-                app.character.get_prof_sleight_of_hand().0
+                app.character.get_sleight_of_hand().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_dexterity().0, 
-                app.character.get_prof_sleight_of_hand().0
-            ),
+            app.character.get_sleight_of_hand().1,
             app.get_dot(
-                app.character.get_prof_stealth().0
+                app.character.get_stealth().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_dexterity().0, 
-                app.character.get_prof_stealth().0
-            ),
+            app.character.get_stealth().1,
             app.get_dot(
-                app.character.get_prof_survival().0
+                app.character.get_survival().0
             ),
-            app.character.calculate_modifier(
-                app.character.get_wisdom().0, 
-                app.character.get_prof_survival().0
-            ),
+            app.character.get_survival().1,
         )) 
         .block(
             Block::bordered()
