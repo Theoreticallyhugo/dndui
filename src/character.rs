@@ -1,26 +1,25 @@
 // use std::error;
 
+pub enum Advantage {
+    No,
+    Advantage,
+    Disadvantage,
+}
+
 pub struct Character {
     name: String,
     race: String,
     class: String,
     level: u8,
-    /// stats 
+    /// stats (ability_score, proficiency)
     ///
-    strength: u8,
-    dexterity: u8,
-    constitution: u8,
-    intelligence: u8,
-    wisdom: u8,
-    charisma: u8,
-    /// proficiency stats
-    proficiency_str: bool,
-    proficiency_dex: bool,
-    proficiency_con: bool,
-    proficiency_int: bool,
-    proficiency_wis: bool,
-    proficiency_cha: bool,
-    /// skills proficiencies
+    strength: (u8, bool),
+    dexterity: (u8, bool),
+    constitution: (u8, bool),
+    intelligence: (u8, bool),
+    wisdom: (u8, bool),
+    charisma: (u8, bool),
+    /// skills 
     ///
     proficiency_acrobatics: bool,
     proficiency_animal_handling: bool,
@@ -40,6 +39,25 @@ pub struct Character {
     proficiency_sleight_of_hand: bool,
     proficiency_stealth: bool,
     proficiency_survival: bool,
+
+    // advantage_acrobatics: Advantage,
+    // advantage_animal_handling: Advantage,
+    // advantage_arcana: Advantage,
+    // advantage_athletics: Advantage,
+    // advantage_deception: Advantage,
+    // advantage_history: Advantage,
+    // advantage_insight: Advantage,
+    // advantage_intimidation: Advantage,
+    // advantage_investigation: Advantage,
+    // advantage_medicine: Advantage,
+    // advantage_nature: Advantage,
+    // advantage_perception: Advantage,
+    // advantage_performance: Advantage,
+    // advantage_persuasion: Advantage,
+    // advantage_religion: Advantage,
+    // advantage_sleight_of_hand: Advantage,
+    // advantage_stealth: Advantage,
+    // advantage_survival: Advantage,
     /// stuff
     ///
     /// proficiency
@@ -67,19 +85,12 @@ impl Default for Character {
             class: "class".to_string(),
             level: 0,
             // stats
-            strength: 0,
-            dexterity: 0,
-            constitution: 0,
-            intelligence: 0,
-            wisdom: 0,
-            charisma: 0,
-            // proficiency stats
-            proficiency_str: false,
-            proficiency_dex: false,
-            proficiency_con: false,
-            proficiency_int: false,
-            proficiency_wis: false,
-            proficiency_cha: false,
+            strength: (0, false),
+            dexterity: (0, false),
+            constitution: (0, false),
+            intelligence: (0, false),
+            wisdom: (0, false),
+            charisma: (0, false),
             // skills
             proficiency_acrobatics: false,
             proficiency_animal_handling: false,
@@ -99,6 +110,25 @@ impl Default for Character {
             proficiency_sleight_of_hand: false,
             proficiency_stealth: false,
             proficiency_survival: false,
+
+            // advantage_acrobatics: Advantage::No,
+            // advantage_animal_handling: Advantage::No,
+            // advantage_arcana: Advantage::No,
+            // advantage_athletics: Advantage::No,
+            // advantage_deception: Advantage::No,
+            // advantage_history: Advantage::No,
+            // advantage_insight: Advantage::No,
+            // advantage_intimidation: Advantage::No,
+            // advantage_investigation: Advantage::No,
+            // advantage_medicine: Advantage::No,
+            // advantage_nature: Advantage::No,
+            // advantage_perception: Advantage::No,
+            // advantage_performance: Advantage::No,
+            // advantage_persuasion: Advantage::No,
+            // advantage_religion: Advantage::No,
+            // advantage_sleight_of_hand: Advantage::No,
+            // advantage_stealth: Advantage::No,
+            // advantage_survival: Advantage::No,
 
             proficiency: 0,
 
@@ -126,19 +156,12 @@ impl Character {
         self.class = "paladin".to_string();
         self.level = 3;
         
-        self.strength = 16;
-        self.dexterity = 8;
-        self.constitution = 14;
-        self.intelligence = 8;
-        self.wisdom = 12;
-        self.charisma = 16;
-        // proficiency stats
-        self.proficiency_str = false;
-        self.proficiency_dex = false;
-        self.proficiency_con = false;
-        self.proficiency_int = false;
-        self.proficiency_wis = true;
-        self.proficiency_cha = true;
+        self.strength = (16, false);
+        self.dexterity = (8, false);
+        self.constitution = (14, false);
+        self.intelligence = (8, false);
+        self.wisdom = (12, true);
+        self.charisma = (16, true);
         // skills
         self.proficiency_acrobatics = false;
         self.proficiency_animal_handling = true;
@@ -185,41 +208,41 @@ impl Character {
 
     /// stats
     pub fn get_strength(&self) -> u8 {
-        self.strength
+        self.strength.0
     }
     pub fn get_dexterity(&self) -> u8 {
-        self.dexterity
+        self.dexterity.0
     }
     pub fn get_constitution(&self) -> u8 {
-        self.constitution
+        self.constitution.0
     }
     pub fn get_intelligence(&self) -> u8 {
-        self.intelligence
+        self.intelligence.0
     }
     pub fn get_wisdom(&self) -> u8 {
-        self.wisdom
+        self.wisdom.0
     }
     pub fn get_charisma(&self) -> u8 {
-        self.charisma
+        self.charisma.0
     }
     /// PROFICIENRCY STATS
     pub fn get_prof_str(&self) -> bool {
-        self.proficiency_str
+        self.strength.1
     }
     pub fn get_prof_dex(&self) -> bool {
-        self.proficiency_dex
+        self.dexterity.1
     }
     pub fn get_prof_con(&self) -> bool {
-        self.proficiency_con
+        self.constitution.1
     }
     pub fn get_prof_int(&self) -> bool {
-        self.proficiency_int
+        self.intelligence.1
     }
     pub fn get_prof_wis(&self) -> bool {
-        self.proficiency_wis
+        self.wisdom.1
     }
     pub fn get_prof_cha(&self) -> bool {
-        self.proficiency_cha
+        self.charisma.1
     }
     // PROFICIENCY SKILLS
     pub fn get_prof_acrobatics(&self) -> bool {
@@ -342,5 +365,12 @@ impl Character {
 
     pub fn add_temp_healing(&mut self, healing: i32) {
         self.temp_hp += healing;
+    }
+
+    pub fn recalculate(&mut self) {
+        // ability modifiers
+        // armor class 
+        // initiative 
+        // skill advantages (i.e. when equipping heavy armour)
     }
 }
