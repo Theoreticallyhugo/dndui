@@ -45,10 +45,10 @@ pub fn headline(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             " {}  {}  {}  lvl {: >2}",
-            app.character.get_name(), 
-            app.character.get_race(), 
-            app.character.get_class(), 
-            app.character.get_level()
+            app.character.name(), 
+            app.character.race(), 
+            app.character.class(), 
+            app.character.level()
         ))
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
         .left_aligned(),
@@ -206,7 +206,7 @@ pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn first_proficiency(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!("proficiency\n+{}\nbonus", app.character.get_proficiency()))
+        Paragraph::new(format!("proficiency\n+{}\nbonus", app.character.proficiency()))
         .block(
             Block::bordered()
                 .title("")
@@ -223,7 +223,7 @@ pub fn first_walking(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "walking\n  {: >3} ft.\nspeed", 
-            app.character.get_walking_speed()
+            app.character.walking_speed()
         ))
         .block(
             Block::bordered()
@@ -249,7 +249,7 @@ pub fn first_inspiration(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "inspiration\n{}", 
-            if app.character.get_inspiration() {
+            if app.character.inspiration() {
                 // "󱍢\n░▒▓█▓▒░"
                 // "\\\\//\n//\\\\"
                 // "◊◊◊"
@@ -334,7 +334,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[0],
     );
     frame.render_widget(
-        Paragraph::new(format!("current\n{: >2}\nhp", app.character.get_current_hp()))
+        Paragraph::new(format!("current\n{: >2}\nhp", app.character.current_hp()))
         .block(
             Block::bordered()
                 .title("")
@@ -346,7 +346,7 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[1],
     );
     frame.render_widget(
-        Paragraph::new(format!("max\n{: >2}\nhp", app.character.get_max_hp()))
+        Paragraph::new(format!("max\n{: >2}\nhp", app.character.max_hp()))
         .block(
             Block::bordered()
                 .title("")
@@ -358,10 +358,10 @@ pub fn first_hp(frame: &mut Frame, app: &mut App, area: Rect) {
         layout[2],
     );
 
-    let temp_hp = if app.character.get_temp_hp() == 0 {
+    let temp_hp = if app.character.temp_hp() == 0 {
         "--".to_string()
     } else {
-        app.character.get_temp_hp().to_string()
+        app.character.temp_hp().to_string()
     };
 
     frame.render_widget(
@@ -461,9 +461,9 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
             {: >2} passive int (investigation)\n \
             {: >2} passive wis (insight)\n\n \
             additional sense types", 
-            app.character.get_passive_perception(), 
-            app.character.get_passive_investigation(), 
-            app.character.get_passive_insight(), 
+            app.character.passive_perception(), 
+            app.character.passive_investigation(), 
+            app.character.passive_insight(), 
         )
         ) 
         .block(
@@ -521,95 +521,95 @@ pub fn second_middle(frame: &mut Frame, app: &mut App, area: Rect) {
             {} WIS Survival        {: >1} {: >+2}\n\n\
             additional skills",
             app.get_dot(
-                app.character.acrobatics().0
+                app.character.acrobatics().proficiency
             ),
-            app.get_advantage_letter(app.character.acrobatics().2),
-            app.character.acrobatics().1,
+            app.get_advantage_letter(app.character.acrobatics().advantage),
+            app.character.acrobatics().modifier,
             app.get_dot(
-                app.character.animal_handling().0
+                app.character.animal_handling().proficiency
             ),
-            app.get_advantage_letter(app.character.animal_handling().2),
-            app.character.animal_handling().1,
+            app.get_advantage_letter(app.character.animal_handling().advantage),
+            app.character.animal_handling().modifier,
             app.get_dot(
-                app.character.arcana().0
+                app.character.arcana().proficiency
             ),
-            app.get_advantage_letter(app.character.arcana().2),
-            app.character.arcana().1,
+            app.get_advantage_letter(app.character.arcana().advantage),
+            app.character.arcana().modifier,
             app.get_dot(
-                app.character.athletics().0
+                app.character.athletics().proficiency
             ),
-            app.get_advantage_letter(app.character.athletics().2),
-            app.character.athletics().1,
+            app.get_advantage_letter(app.character.athletics().advantage),
+            app.character.athletics().modifier,
             app.get_dot(
-                app.character.deception().0
+                app.character.deception().proficiency
             ),
-            app.get_advantage_letter(app.character.deception().2),
-            app.character.deception().1,
+            app.get_advantage_letter(app.character.deception().advantage),
+            app.character.deception().modifier,
             app.get_dot(
-                app.character.history().0
+                app.character.history().proficiency
             ),
-            app.get_advantage_letter(app.character.history().2),
-            app.character.history().1,
+            app.get_advantage_letter(app.character.history().advantage),
+            app.character.history().modifier,
             app.get_dot(
-                app.character.insight().0
+                app.character.insight().proficiency
             ),
-            app.get_advantage_letter(app.character.insight().2),
-            app.character.insight().1,
+            app.get_advantage_letter(app.character.insight().advantage),
+            app.character.insight().modifier,
             app.get_dot(
-                app.character.intimidation().0
+                app.character.intimidation().proficiency
             ),
-            app.get_advantage_letter(app.character.intimidation().2),
-            app.character.intimidation().1,
+            app.get_advantage_letter(app.character.intimidation().advantage),
+            app.character.intimidation().modifier,
             app.get_dot(
-                app.character.investigation().0
+                app.character.investigation().proficiency
             ),
-            app.get_advantage_letter(app.character.investigation().2),
-            app.character.investigation().1,
+            app.get_advantage_letter(app.character.investigation().advantage),
+            app.character.investigation().modifier,
             app.get_dot(
-                app.character.medicine().0
+                app.character.medicine().proficiency
             ),
-            app.get_advantage_letter(app.character.medicine().2),
-            app.character.medicine().1,
+            app.get_advantage_letter(app.character.medicine().advantage),
+            app.character.medicine().modifier,
             app.get_dot(
-                app.character.nature().0
+                app.character.nature().proficiency
             ),
-            app.get_advantage_letter(app.character.nature().2),
-            app.character.nature().1,
+            app.get_advantage_letter(app.character.nature().advantage),
+            app.character.nature().modifier,
             app.get_dot(
-                app.character.perception().0
+                app.character.perception().proficiency
             ),
-            app.get_advantage_letter(app.character.perception().2),
-            app.character.perception().1,
+            app.get_advantage_letter(app.character.perception().advantage),
+            app.character.perception().modifier,
             app.get_dot(
-                app.character.performance().0
+                app.character.performance().proficiency
             ),
-            app.get_advantage_letter(app.character.performance().2),
-            app.character.performance().1,
+            app.get_advantage_letter(app.character.performance().advantage),
+            app.character.performance().modifier,
             app.get_dot(
-                app.character.persuasion().0
+                app.character.persuasion().proficiency
             ),
-            app.get_advantage_letter(app.character.persuasion().2),
-            app.character.persuasion().1,
+            app.get_advantage_letter(app.character.persuasion().advantage),
+            app.character.persuasion().modifier,
             app.get_dot(
-                app.character.religion().0
+                app.character.religion().proficiency
             ),
-            app.get_advantage_letter(app.character.religion().2),
-            app.character.religion().1,
+            app.get_advantage_letter(app.character.religion().advantage),
+            app.character.religion().modifier,
             app.get_dot(
-                app.character.sleight_of_hand().0
+                app.character.sleight_of_hand().proficiency
             ),
-            app.get_advantage_letter(app.character.sleight_of_hand().2),
-            app.character.sleight_of_hand().1,
+            app.get_advantage_letter(app.character.sleight_of_hand().advantage),
+            app.character.sleight_of_hand().modifier,
             app.get_dot(
-                app.character.stealth().0
+                app.character.stealth().proficiency
             ),
-            app.get_advantage_letter(app.character.stealth().2),
-            app.character.stealth().1,
+            app.get_advantage_letter(app.character.stealth().advantage),
+            app.character.stealth().modifier,
             app.get_dot(
-                app.character.survival().0
+                app.character.survival().proficiency
             ),
-            app.get_advantage_letter(app.character.survival().2),
-            app.character.survival().1,
+            app.get_advantage_letter(app.character.survival().advantage),
+            app.character.survival().modifier,
         )) 
         .block(
             Block::bordered()
@@ -651,7 +651,7 @@ pub fn second_right_top_1(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "initiative\n{: >+2}", 
-            app.character.get_initiative()
+            app.character.initiative()
         )) 
         .block(
             Block::bordered()
@@ -669,7 +669,7 @@ pub fn second_right_top_2(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "armor\n{}\nclass", 
-            app.character.get_armor_class()
+            app.character.armor_class()
         )) 
         .block(
             Block::bordered()
@@ -686,7 +686,7 @@ pub fn second_right_top_2(frame: &mut Frame, app: &mut App, area: Rect) {
 pub fn second_right_top_3(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(
-            app.character.get_defenses()
+            app.character.defenses()
         ) 
         .block(
             Block::bordered()
@@ -703,7 +703,7 @@ pub fn second_right_top_3(frame: &mut Frame, app: &mut App, area: Rect) {
 pub fn second_right_top_4(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(
-            app.character.get_conditions()
+            app.character.conditions()
         ) 
         .block(
             Block::bordered()
