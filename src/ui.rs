@@ -11,6 +11,7 @@ use ratatui::{
 use crate::app::App;
 use crate::app::InputMode;
 use crate::help_ui::help_screen;
+use crate::tabs_ui::second_right_bot;
 
 
 /// Renders the user interface widgets.
@@ -717,27 +718,6 @@ pub fn second_right_top_4(frame: &mut Frame, app: &mut App, area: Rect) {
     )
 }
 
-pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
-    frame.render_widget(
-        Paragraph::new(
-            format!(
-            "This is a tui template.\n\
-                Press `Ctrl-C` or `q` to stop running.\n\
-                Press left and right to increment and decrement the counter respectively.\n\
-                Counter: {}",
-            app.get_counter()
-        ))
-        .block(
-            Block::bordered()
-                .title(" right ")
-                .title_alignment(Alignment::Center)
-                .border_type(BorderType::Rounded),
-        )
-        .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
-        .centered(),
-        area
-    )
-}
 
 pub fn colon_line(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(

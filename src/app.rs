@@ -194,13 +194,17 @@ impl App {
     }
 
     pub fn increment_counter(&mut self) {
-        if let Some(res) = self.counter.checked_add(1) {
-            self.counter = res;
+        if self.counter == 6 {
+            self.counter = 0;
+        } else if let Some(res) = self.counter.checked_add(1) { 
+            self.counter = res; 
         }
     }
 
     pub fn decrement_counter(&mut self) {
-        if let Some(res) = self.counter.checked_sub(1) {
+        if self.counter == 0 {
+            self.counter = 6;
+        } else if let Some(res) = self.counter.checked_sub(1) {
             self.counter = res;
         }
     }

@@ -39,10 +39,10 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                     app.enter_help_screen();
                 }
                 // Counter handlers
-                KeyCode::Up | KeyCode::Char('k') => {
+                KeyCode::Right | KeyCode::Char('l') => {
                     app.increment_counter();
                 }
-                KeyCode::Down | KeyCode::Char('j') => {
+                KeyCode::Left | KeyCode::Char('h') => {
                     app.decrement_counter();
                 }
                 // Other handlers you could add here.
@@ -61,10 +61,10 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                     }
                 }
                 // Counter handlers
-                KeyCode::Up | KeyCode::Char('k') => {
+                KeyCode::Right | KeyCode::Char('l') => {
                     app.increment_counter();
                 }
-                KeyCode::Down | KeyCode::Char('j') => {
+                KeyCode::Left | KeyCode::Char('h') => {
                     app.decrement_counter();
                 }
                 _ => {}

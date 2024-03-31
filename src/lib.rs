@@ -17,3 +17,5 @@ pub mod handler;
 pub mod character;
 
 pub mod help_ui;
+
+pub mod tabs_ui;

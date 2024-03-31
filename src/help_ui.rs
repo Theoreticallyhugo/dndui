@@ -24,7 +24,9 @@ pub fn help_screen(frame: &mut Frame, app: &mut App, area: Rect) {
 
     // TODO: r for short rest, R for long. highlight respective word and press again to lock in
     frame.render_widget(
-        Paragraph::new("short rest   long rest   edit ")
+        Paragraph::new( "This is a tui template.\n\
+                 Press `Ctrl-C` or `q` to stop running.\n\
+                 Press left and right to increment and decrement the counter respectively.")
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
         .right_aligned(),
         layout[1],
