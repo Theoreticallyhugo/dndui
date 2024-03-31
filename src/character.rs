@@ -242,23 +242,23 @@ impl Character {
         self.strength
     }
     /// returns: score, proficiency, modifier, save
-    pub fn get_dexterity(&self) -> (u8, bool, i8, i8) {
+    pub fn dexterity(&self) -> (u8, bool, i8, i8) {
         self.dexterity
     }
     /// returns: score, proficiency, modifier, save
-    pub fn get_constitution(&self) -> (u8, bool, i8, i8) {
+    pub fn constitution(&self) -> (u8, bool, i8, i8) {
         self.constitution
     }
     /// returns: score, proficiency, modifier, save
-    pub fn get_intelligence(&self) -> (u8, bool, i8, i8) {
+    pub fn intelligence(&self) -> (u8, bool, i8, i8) {
         self.intelligence
     }
     /// returns: score, proficiency, modifier, save
-    pub fn get_wisdom(&self) -> (u8, bool, i8, i8) {
+    pub fn wisdom(&self) -> (u8, bool, i8, i8) {
         self.wisdom
     }
     /// returns: score, proficiency, modifier, save
-    pub fn get_charisma(&self) -> (u8, bool, i8, i8) {
+    pub fn charisma(&self) -> (u8, bool, i8, i8) {
         self.charisma
     }
 

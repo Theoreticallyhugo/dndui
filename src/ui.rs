@@ -113,8 +113,8 @@ pub fn first_dex(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "dexterity\n{: >+2}\n{: >2}", 
-            app.character.get_dexterity().2, 
-            app.character.get_dexterity().0
+            app.character.dexterity().2, 
+            app.character.dexterity().0
         ))
         .block(
             Block::bordered()
@@ -132,8 +132,8 @@ pub fn first_con(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "constitution\n{: >+2}\n{: >2}", 
-            app.character.get_constitution().2, 
-            app.character.get_constitution().0
+            app.character.constitution().2, 
+            app.character.constitution().0
         ))
         .block(
             Block::bordered()
@@ -151,8 +151,8 @@ pub fn first_int(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "intelligence\n{: >+2}\n{: >2}", 
-            app.character.get_intelligence().2, 
-            app.character.get_intelligence().0
+            app.character.intelligence().2, 
+            app.character.intelligence().0
         ))
         .block(
             Block::bordered()
@@ -170,8 +170,8 @@ pub fn first_wis(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "wisdom\n{: >+2}\n{: >2}", 
-            app.character.get_wisdom().2, 
-            app.character.get_wisdom().0
+            app.character.wisdom().2, 
+            app.character.wisdom().0
         ))
         .block(
             Block::bordered()
@@ -189,8 +189,8 @@ pub fn first_cha(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "charisma\n{: >+2}\n{: >2}", 
-            app.character.get_charisma().2, 
-            app.character.get_charisma().0
+            app.character.charisma().2, 
+            app.character.charisma().0
         ))
         .block(
             Block::bordered()
@@ -411,36 +411,36 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
                 "○" 
             },
             app.character.strength().save, 
-            if app.character.get_intelligence().1 {
+            if app.character.intelligence().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_intelligence().3, 
-            if app.character.get_dexterity().1 {
+            app.character.intelligence().3, 
+            if app.character.dexterity().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_dexterity().3, 
-            if app.character.get_wisdom().1 {
+            app.character.dexterity().3, 
+            if app.character.wisdom().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_wisdom().3, 
-            if app.character.get_constitution().1 {
+            app.character.wisdom().3, 
+            if app.character.constitution().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_constitution().3, 
-            if app.character.get_charisma().1 {
+            app.character.constitution().3, 
+            if app.character.charisma().1 {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_charisma().3, 
+            app.character.charisma().3, 
         )
         ) 
         .block(
