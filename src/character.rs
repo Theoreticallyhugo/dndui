@@ -7,6 +7,23 @@ pub enum Advantage {
     Disadvantage,
 }
 
+#[derive(Debug, Clone, Copy, Default)]
+pub struct Ability {
+    pub score: u8,
+    pub proficiency: bool,
+    /// general base modifier
+    pub modifier: i8,
+    /// modifier for saving throws
+    pub save: i8,
+}
+
+impl Ability {
+    /// Constructs a new instance of [`Ability`].
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
 #[derive(Debug)]
 pub struct Character {
     name: String,
@@ -18,7 +35,7 @@ pub struct Character {
     // the modifier is a calculated value that doesnt need to be saved to a character file.
     //
     /// score, proficiency, modifier, save
-    strength: (u8, bool, i8, i8),
+    strength: Ability,
     /// score, proficiency, modifier, save
     dexterity: (u8, bool, i8, i8),
     /// score, proficiency, modifier, save
@@ -105,7 +122,7 @@ impl Default for Character {
             class: "class".to_string(),
             level: 0,
             // stats
-            strength: (0, false, 0, 0),
+            strength: Ability::new(),
             dexterity: (0, false, 0, 0),
             constitution: (0, false, 0, 0),
             intelligence: (0, false, 0, 0),
@@ -163,7 +180,9 @@ impl Character {
         self.class = "paladin".to_string();
         self.level = 3;
         
-        self.strength = (16, false, 0, 0);
+        // self.strength = (16, false, 0, 0);
+        self.strength.score = 16;
+        self.strength.proficiency = false;
         self.dexterity = (8, false, 0, 0);
         self.constitution = (14, false, 0, 0);
         self.intelligence = (8, false, 0, 0);
@@ -219,7 +238,7 @@ impl Character {
     // stats
     
     /// returns: score, proficiency, modifier, save
-    pub fn get_strength(&self) -> (u8, bool, i8, i8) {
+    pub fn strength(&self) -> Ability {
         self.strength
     }
     /// returns: score, proficiency, modifier, save
@@ -397,14 +416,14 @@ impl Character {
     /// any variable value needs to be reset here.
     pub fn recalculate(&mut self) {
         // ability modifiers
-        self.strength.2 = self.calculate_modifier(self.strength.0, false);
+        self.strength.modifier = self.calculate_modifier(self.strength.score, false);
         self.dexterity.2 = self.calculate_modifier(self.dexterity.0, false);
         self.constitution.2 = self.calculate_modifier(self.constitution.0, false);
         self.intelligence.2 = self.calculate_modifier(self.intelligence.0, false);
         self.wisdom.2 = self.calculate_modifier(self.wisdom.0, false);
         self.charisma.2 = self.calculate_modifier(self.charisma.0, false);
         // ability saves
-        self.strength.3 = self.calculate_modifier(self.strength.0, self.strength.1);
+        self.strength.save = self.calculate_modifier(self.strength.score, self.strength.proficiency);
         self.dexterity.3 = self.calculate_modifier(self.dexterity.0, self.dexterity.1);
         self.constitution.3 = self.calculate_modifier(self.constitution.0, self.constitution.1);
         self.intelligence.3 = self.calculate_modifier(self.intelligence.0, self.intelligence.1);
@@ -412,23 +431,23 @@ impl Character {
         self.charisma.3 = self.calculate_modifier(self.charisma.0, self.charisma.1);
         // skill modifiers 
         self.acrobatics.1 = self.calculate_modifier(self.dexterity.0, self.acrobatics.0);
-        self.animal_handling.1 = self.calculate_modifier(self.get_wisdom().0, self.animal_handling.0);
-        self.arcana.1 = self.calculate_modifier(self.get_intelligence().0, self.arcana.0);
-        self.athletics.1 = self.calculate_modifier(self.get_strength().0, self.athletics.0);
-        self.deception.1 = self.calculate_modifier(self.get_charisma().0, self.deception.0);
-        self.history.1 = self.calculate_modifier(self.get_intelligence().0, self.history.0);
-        self.insight.1 = self.calculate_modifier(self.get_wisdom().0, self.insight.0);
-        self.intimidation.1 = self.calculate_modifier(self.get_charisma().0, self.intimidation.0);
-        self.investigation.1 = self.calculate_modifier(self.get_intelligence().0, self.investigation.0);
-        self.medicine.1 = self.calculate_modifier(self.get_wisdom().0, self.medicine.0);
-        self.nature.1 = self.calculate_modifier(self.get_intelligence().0, self.nature.0);
-        self.perception.1 = self.calculate_modifier(self.get_wisdom().0, self.perception.0);
-        self.performance.1 = self.calculate_modifier(self.get_charisma().0, self.performance.0);
-        self.persuasion.1 = self.calculate_modifier(self.get_charisma().0, self.persuasion.0);
-        self.religion.1 = self.calculate_modifier(self.get_intelligence().0, self.religion.0);
-        self.sleight_of_hand.1 = self.calculate_modifier(self.get_dexterity().0, self.sleight_of_hand.0);
-        self.stealth.1 = self.calculate_modifier(self.get_dexterity().0, self.stealth.0);
-        self.survival.1 = self.calculate_modifier(self.get_wisdom().0, self.survival.0);
+        self.animal_handling.1 = self.calculate_modifier(self.wisdom.0, self.animal_handling.0);
+        self.arcana.1 = self.calculate_modifier(self.intelligence.0, self.arcana.0);
+        self.athletics.1 = self.calculate_modifier(self.strength.score, self.athletics.0);
+        self.deception.1 = self.calculate_modifier(self.charisma.0, self.deception.0);
+        self.history.1 = self.calculate_modifier(self.intelligence.0, self.history.0);
+        self.insight.1 = self.calculate_modifier(self.wisdom.0, self.insight.0);
+        self.intimidation.1 = self.calculate_modifier(self.charisma.0, self.intimidation.0);
+        self.investigation.1 = self.calculate_modifier(self.intelligence.0, self.investigation.0);
+        self.medicine.1 = self.calculate_modifier(self.wisdom.0, self.medicine.0);
+        self.nature.1 = self.calculate_modifier(self.intelligence.0, self.nature.0);
+        self.perception.1 = self.calculate_modifier(self.wisdom.0, self.perception.0);
+        self.performance.1 = self.calculate_modifier(self.charisma.0, self.performance.0);
+        self.persuasion.1 = self.calculate_modifier(self.charisma.0, self.persuasion.0);
+        self.religion.1 = self.calculate_modifier(self.intelligence.0, self.religion.0);
+        self.sleight_of_hand.1 = self.calculate_modifier(self.dexterity.0, self.sleight_of_hand.0);
+        self.stealth.1 = self.calculate_modifier(self.dexterity.0, self.stealth.0);
+        self.survival.1 = self.calculate_modifier(self.wisdom.0, self.survival.0);
         // skill advantages 
         // TODO: implement propper calculation for all skills
         self.stealth.2 = Advantage::Disadvantage;

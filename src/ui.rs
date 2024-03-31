@@ -94,8 +94,8 @@ pub fn first_str(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
         Paragraph::new(format!(
             "strength\n{: >+2}\n{: >2}", 
-            app.character.get_strength().2, 
-            app.character.get_strength().0
+            app.character.strength().modifier, 
+            app.character.strength().score
         ))
         .block(
             Block::bordered()
@@ -405,12 +405,12 @@ pub fn second_left(frame: &mut Frame, app: &mut App, area: Rect) {
             {} dex: {: >+2}   {} wis: {: >+2}\n\
             {} con: {: >+2}   {} cha: {: >+2}\n\n\
             saving throw modifiers", 
-            if app.character.get_strength().1 {
+            if app.character.strength().proficiency {
                 "●" 
             } else {
                 "○" 
             },
-            app.character.get_strength().3, 
+            app.character.strength().save, 
             if app.character.get_intelligence().1 {
                 "●" 
             } else {
