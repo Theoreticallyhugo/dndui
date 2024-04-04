@@ -1,44 +1,7 @@
 // use std::error;
-
-#[derive(Debug, Clone, Copy, Default)]
-pub enum Advantage {
-    #[default] No,
-    Advantage,
-    Disadvantage,
-}
-
-#[derive(Debug, Clone, Copy, Default)]
-pub struct Ability {
-    pub score: u8,
-    pub proficiency: bool,
-    /// general base modifier
-    pub modifier: i8,
-    /// modifier for saving throws
-    pub save: i8,
-}
-
-impl Ability {
-    /// Constructs a new instance of [`Ability`].
-    pub fn new() -> Self {
-        Self::default()
-    }
-}
-
-#[derive(Debug, Clone, Copy, Default)]
-pub struct Skill {
-    pub proficiency: bool,
-    /// general base modifier
-    pub modifier: i8,
-    /// modifier for saving throws
-    pub advantage: Advantage,
-}
-
-impl Skill {
-    /// Constructs a new instance of [`Ability`].
-    pub fn new() -> Self {
-        Self::default()
-    }
-}
+use crate::character_limbs::ability::Ability;
+use crate::character_limbs::skill::Skill;
+use crate::character_limbs::advantage::Advantage;
 
 #[derive(Debug)]
 pub struct Character {
@@ -128,6 +91,8 @@ pub struct Character {
     /// the characters temp hp
     temp_hp: i32,
 
+    spells_prepared: Vec<String>,
+    spells_known: Vec<String>,
 }
 
 impl Default for Character {
@@ -179,6 +144,9 @@ impl Default for Character {
             current_hp: 0,
             max_hp: 0,
             temp_hp: 0,
+
+            spells_prepared: vec![String::new()],
+            spells_known: vec![String::new()],
         }
     }
 }
@@ -238,6 +206,8 @@ impl Character {
         self.current_hp = 28;
         self.max_hp = 28;
         self.temp_hp = 0;
+
+        self.spells_prepared = vec!["bless".to_string(), "command".to_string(), "cure wounds".to_string()];
 
         // make sure to calculate everything after loading
         self.recalculate();
@@ -413,6 +383,14 @@ impl Character {
     pub fn conditions(&self) -> String {
         // TODO: needs to be saved properly!
         "add active conditions".to_string()
+    }
+
+    pub fn spells_prepared(&self) -> &Vec<String> {
+        &self.spells_prepared
+    }
+
+    pub fn spells_known(&self) -> &Vec<String> {
+        &self.spells_known
     }
 
     pub fn add_healing(&mut self, healing: i32) {

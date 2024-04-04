@@ -721,7 +721,7 @@ pub fn second_right_top_4(frame: &mut Frame, app: &mut App, area: Rect) {
 
 pub fn colon_line(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(" press : for commands and ? for help")
+        Paragraph::new(" press : for commands, ? for help, and q to quit")
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
         .left_aligned(),
         area

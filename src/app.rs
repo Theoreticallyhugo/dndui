@@ -1,6 +1,6 @@
 use std::error;
 use crate::character::Character;
-use crate::character::Advantage;
+use crate::character_limbs::advantage::Advantage;
 
 /// Application result type.
 pub type AppResult<T> = std::result::Result<T, Box<dyn error::Error>>;
