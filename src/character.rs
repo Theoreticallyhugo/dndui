@@ -2,6 +2,7 @@
 use crate::character_limbs::ability::Ability;
 use crate::character_limbs::skill::Skill;
 use crate::character_limbs::advantage::Advantage;
+use crate::character_limbs::spells::Spell;
 
 #[derive(Debug)]
 pub struct Character {
@@ -91,8 +92,8 @@ pub struct Character {
     /// the characters temp hp
     temp_hp: i32,
 
-    spells_prepared: Vec<String>,
-    spells_known: Vec<String>,
+    spells_prepared: Vec<Spell>,
+    spells_known: Vec<Spell>,
 }
 
 impl Default for Character {
@@ -145,8 +146,8 @@ impl Default for Character {
             max_hp: 0,
             temp_hp: 0,
 
-            spells_prepared: vec![String::new()],
-            spells_known: vec![String::new()],
+            spells_prepared: vec![Spell::new()],
+            spells_known: vec![Spell::new()],
         }
     }
 }
@@ -207,7 +208,44 @@ impl Character {
         self.max_hp = 28;
         self.temp_hp = 0;
 
-        self.spells_prepared = vec!["bless".to_string(), "command".to_string(), "cure wounds".to_string()];
+        self.spells_prepared = vec![
+            Spell {
+                name: "bless".to_string(),
+                class: "Paladin".to_string(),
+                level: 1,
+                concentration: true,
+                ritual: false,
+                time: 1,
+                time_format: "A".to_string(),
+                range: 30,
+                hit_dc: 0,
+                hit_dc_ability: "".to_string(),
+                effect: "buff".to_string(),
+                duration: 1,
+                duration_format: "m".to_string(),
+                components: "v/s/m".to_string(),
+                aoe: 0,
+                aoe_format: "none".to_string(),
+            },
+            Spell {
+                name: "command".to_string(),
+                class: "Paladin".to_string(),
+                level: 1,
+                concentration: false,
+                ritual: false,
+                time: 1,
+                time_format: "A".to_string(),
+                range: 60,
+                hit_dc: 13,
+                hit_dc_ability: "wis".to_string(),
+                effect: "prone".to_string(),
+                duration: 1,
+                duration_format: "rnd".to_string(),
+                components: "v".to_string(),
+                aoe: 0,
+                aoe_format: "none".to_string(),
+            }
+        ];
 
         // make sure to calculate everything after loading
         self.recalculate();
@@ -385,11 +423,11 @@ impl Character {
         "add active conditions".to_string()
     }
 
-    pub fn spells_prepared(&self) -> &Vec<String> {
+    pub fn spells_prepared(&self) -> &Vec<Spell> {
         &self.spells_prepared
     }
 
-    pub fn spells_known(&self) -> &Vec<String> {
+    pub fn spells_known(&self) -> &Vec<Spell> {
         &self.spells_known
     }
 

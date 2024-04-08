@@ -8,6 +8,7 @@ use ratatui::{
 
 use crate::app::App;
 use crate::app::InputMode;
+use crate::character_limbs::spells::Spell;
 
 
 pub fn second_right_bot(frame: &mut Frame, app: &mut App, area: Rect) {
@@ -63,12 +64,55 @@ pub fn actions(frame: &mut Frame, app: &mut App, area: Rect) {
         area
     )
 }
+pub fn pretty_spells(spells: &[Spell]) -> String {
+    let mut pretty_out = " name                    time range hit/dc    effect   notes".to_string();
+    for spell in spells.iter() {
+        pretty_out.extend(format!(
+            // name  concRit        timeFmt rng,  hit,     eff, aoeFmt, comp, cls  
+            "\n {: <20} {: >1}{: >1} {}{}   {}, {: >7}, {: >6}, {}{} {}, {}",
+            spell.name,
+            if spell.concentration {
+                "C"
+            } else {
+                ""
+            },
+            if spell.ritual {
+                "R"
+            } else {
+                ""
+            },
+            spell.time,
+            spell.time_format,
+            if spell.range == 0 {
+                "touch".to_string()
+            }else {
+                format!("{}ft.", spell.range)
+            },
+            if spell.hit_dc == 0 {
+                "-".to_string()
+            } else {
+                format!("{}: {: >2}", spell.hit_dc_ability, spell.hit_dc)
+            },
+            spell.effect,
+            if spell.duration == 0 {
+                "".to_string()
+            } else {
+                format!(" D: {}{},", spell.duration, spell.duration_format)
+            },
+            if spell.aoe == 0 {
+                "".to_string()
+            } else {
+                format!(" {}ft. {},", spell.aoe, spell.aoe_format)
+            },
+            spell.components,
+            spell.class,
+        ).chars());
+    }
+    pretty_out
+}
 pub fn spells(frame: &mut Frame, app: &mut App, area: Rect) {
     frame.render_widget(
-        Paragraph::new(format!(
-            "{:?}",
-            app.character.spells_prepared()
-        ))
+        Paragraph::new(pretty_spells(app.character.spells_prepared()))
         .block(
             Block::bordered()
                 .title(" spells ")
@@ -76,7 +120,7 @@ pub fn spells(frame: &mut Frame, app: &mut App, area: Rect) {
                 .border_type(BorderType::Rounded),
         )
         .style(Style::default().fg(Color::Cyan).bg(Color::Reset))
-        .centered(),
+        .left_aligned(),
         area
     )
 }

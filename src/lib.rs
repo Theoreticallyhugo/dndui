@@ -23,3 +23,4 @@ pub mod help_ui;
 
 pub mod tabs_ui;
 
+pub mod inventory;
