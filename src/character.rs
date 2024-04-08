@@ -4,6 +4,10 @@ use crate::character_limbs::skill::Skill;
 use crate::character_limbs::advantage::Advantage;
 use crate::character_limbs::spells::Spell;
 
+use std::fs;
+
+use serde_json::Result;
+
 #[derive(Debug)]
 pub struct Character {
     name: String,
@@ -208,47 +212,28 @@ impl Character {
         self.max_hp = 28;
         self.temp_hp = 0;
 
-        self.spells_prepared = vec![
-            Spell {
-                name: "bless".to_string(),
-                class: "Paladin".to_string(),
-                level: 1,
-                concentration: true,
-                ritual: false,
-                time: 1,
-                time_format: "A".to_string(),
-                range: 30,
-                hit_dc: 0,
-                hit_dc_ability: "".to_string(),
-                effect: "buff".to_string(),
-                duration: 1,
-                duration_format: "m".to_string(),
-                components: "v/s/m".to_string(),
-                aoe: 0,
-                aoe_format: "none".to_string(),
-            },
-            Spell {
-                name: "command".to_string(),
-                class: "Paladin".to_string(),
-                level: 1,
-                concentration: false,
-                ritual: false,
-                time: 1,
-                time_format: "A".to_string(),
-                range: 60,
-                hit_dc: 13,
-                hit_dc_ability: "wis".to_string(),
-                effect: "prone".to_string(),
-                duration: 1,
-                duration_format: "rnd".to_string(),
-                components: "v".to_string(),
-                aoe: 0,
-                aoe_format: "none".to_string(),
-            }
-        ];
+
+        self.spells_prepared = self.load_spells();
 
         // make sure to calculate everything after loading
         self.recalculate();
+    }
+
+    pub fn load_spells(&self) -> Vec<Spell> {
+        let spell_files = fs::read_dir("spells").unwrap();
+        let mut spells: Vec<Spell> = vec![];
+        for file_path in spell_files {
+
+            let contents = fs::read_to_string(file_path.unwrap().path())
+                .expect("Should have been able to read the file");
+
+            if let Ok(spell) = self.load_spells_file(&contents) { spells.extend(vec![spell]); }
+        }
+        spells
+    }
+
+    pub fn load_spells_file(&self, data: &str) -> Result<Spell> {
+        serde_json::from_str(data)
     }
 
     pub fn name(&self) -> &String {

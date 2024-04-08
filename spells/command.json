@@ -1,0 +1,18 @@
+{
+    "name": "command",
+    "class": "Paladin",
+    "level": 1,
+    "concentration": false,
+    "ritual": false,
+    "time": 1,
+    "time_format": "A",
+    "range": 60,
+    "hit_dc": 13,
+    "hit_dc_ability": "wis",
+    "effect": "prone",
+    "duration": 1,
+    "duration_format": "rnd",
+    "components": "v",
+    "aoe": 0,
+    "aoe_format": "none"
+}

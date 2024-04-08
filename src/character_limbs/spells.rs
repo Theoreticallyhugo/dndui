@@ -1,4 +1,6 @@
-#[derive(Debug, Clone, Default)]
+use serde_derive::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone, Default)]
 pub struct Spell {
     pub name: String,
     pub class: String,
