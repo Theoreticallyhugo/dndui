@@ -1,13 +1,15 @@
 use ratatui::{
-    prelude::{Layout, Direction, Rect},
-    layout::{Alignment, Constraint},
+    // prelude::{Layout, Direction, Rect},
+    prelude::Rect,
+    // layout::{Alignment, Constraint},
+    layout::Alignment,
     style::{Color, Style},
     widgets::{Block, BorderType, Paragraph},
     Frame,
 };
 
 use crate::app::App;
-use crate::app::InputMode;
+// use crate::app::InputMode;
 use crate::character_limbs::spells::Spell;
 
 

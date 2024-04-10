@@ -1,15 +1,17 @@
 use ratatui::{
     prelude::{Layout, Direction, Rect},
-    layout::{Alignment, Constraint},
+    // layout::{Alignment, Constraint},
+    layout::Constraint,
     style::{Color, Style},
-    widgets::{Block, BorderType, Paragraph},
+    // widgets::{Block, BorderType, Paragraph},
+    widgets::Paragraph,
     Frame,
 };
 
 use crate::app::App;
-use crate::app::InputMode;
+// use crate::app::InputMode;
 
-pub fn help_screen(frame: &mut Frame, app: &mut App, area: Rect) {
+pub fn help_screen(frame: &mut Frame, _app: &mut App, area: Rect) {
     let layout = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])

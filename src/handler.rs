@@ -1,5 +1,6 @@
 use crate::app::{App, AppResult, InputMode};
-use crossterm::event::{KeyCode, KeyEvent, KeyModifiers, MouseButton, MouseEvent, MouseEventKind};
+use crossterm::event::{KeyCode, KeyEvent, KeyModifiers, MouseEvent};
+// use crossterm::event::{MouseButton, MouseEventKind};
 
 /// Handles the key events and updates the state of [`App`].
 pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
@@ -140,14 +141,14 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
 }
 
 /// Handles the mouse events and updates the state of [`App`].
-pub fn handle_mouse_events(mouse_event: MouseEvent, app: &mut App) -> AppResult<()> {
+pub fn handle_mouse_events(mouse_event: MouseEvent, _app: &mut App) -> AppResult<()> {
     match mouse_event.kind {
-        MouseEventKind::Down(MouseButton::Left) => {
-            app.increment_counter();
-        }
-        MouseEventKind::Down(MouseButton::Right) => {
-            app.decrement_counter();
-        }
+        // MouseEventKind::Down(MouseButton::Left) => {
+        //     app.increment_counter();
+        // }
+        // MouseEventKind::Down(MouseButton::Right) => {
+        //     app.decrement_counter();
+        // }
         // Other handlers you could add here.
         _ => {}
     }
