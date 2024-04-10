@@ -222,8 +222,14 @@ impl Character {
     /// loading spells from inidvidual json files, located in the spells directory.
     /// any file(or directory) that can't be converted to the proper struct is omitted
     pub fn load_spells(&self) -> Vec<Spell> {
-        let spell_files = fs::read_dir("spells").unwrap();
         let mut spells: Vec<Spell> = vec![];
+        // FIXME: not rust style, but works...
+        let spell_files;
+        // fs::read_dir("spells").unwrap();
+        match fs::read_dir("spells_known") {
+            Ok(data) => {spell_files = data;},
+            Err(_) => { return spells; }
+        };
         for file_path in spell_files {
 
             let contents = fs::read_to_string(file_path.unwrap().path())
