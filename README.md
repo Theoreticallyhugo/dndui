@@ -31,3 +31,4 @@ src/
 | add long and shortrest feature with R and r respectively     | ---    |
 | add left-arrow and right-arrow, as well as h and l for switching between bot right windows. add down-arrow and up-arrow, as well as j and k for scrolling through these windows. (remember scrolling for each page?) | ---    |
 | Calculate AC properly                                        | ---    |
+| put + or - for damaging/ healing per default. pressing + or - switches the sign to the respective sign at any point. | ---    |

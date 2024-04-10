@@ -229,12 +229,14 @@ impl Character {
             let contents = fs::read_to_string(file_path.unwrap().path())
                 .unwrap_or("".to_string());
 
-            if let Ok(spell) = self.load_spells_file(&contents) { spells.extend(vec![spell]); }
+            if let Ok(spell) = self.load_spell_file(&contents) { spells.extend(vec![spell]); }
         }
+        // this sorts the spells vector by name
+        spells.sort_by_key(|s| s.name.clone());
         spells
     }
 
-    pub fn load_spells_file(&self, data: &str) -> Result<Spell> {
+    pub fn load_spell_file(&self, data: &str) -> Result<Spell> {
         serde_json::from_str(data)
     }
 
