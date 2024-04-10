@@ -101,10 +101,12 @@ impl App {
 
     pub fn start_healing(&mut self) {
         self.input_mode = InputMode::Healing;
+        self.enter_char('+');
     }
 
     pub fn start_temp_healing(&mut self) {
         self.input_mode = InputMode::TempHealing;
+        self.enter_char('+');
     }
 
     pub fn start_inspiration(&mut self) {
@@ -123,8 +125,29 @@ impl App {
 
     pub fn enter_char(&mut self, new_char: char) {
         self.input.insert(self.cursor_position, new_char);
-
         self.move_cursor_right();
+    }
+
+    pub fn input_to_neg_sign(&mut self) {
+        if self.get_input_length() == 0 {
+            self.enter_char('-');
+        } else {
+            self.input.remove(0);
+            self.input.insert(0, '-');
+        }
+    }
+
+    pub fn input_to_pos_sign(&mut self) {
+        if self.get_input_length() == 0 {
+            self.enter_char('+');
+        } else {
+            self.input.remove(0);
+            self.input.insert(0, '+');
+        }
+    }
+
+    pub fn input_get_sign(&self) -> char {
+        self.input.chars().nth(0).unwrap()
     }
 
     pub fn delete_char(&mut self) {

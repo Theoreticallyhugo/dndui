@@ -83,13 +83,16 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 }
                 KeyCode::Enter => app.submit_message(),
                 KeyCode::Char('-') => {
-                    if app.get_input_length() == 0 {
-                        app.enter_char('-');
-                    }
+                    app.input_to_neg_sign();
                 }
                 KeyCode::Char('+') => {
-                    if app.get_input_length() == 0 {
-                        app.enter_char('+');
+                    app.input_to_pos_sign();
+                }
+                KeyCode::Char(' ') => {
+                    match app.input_get_sign() {
+                        '+' => app.input_to_neg_sign(),
+                        '-' => app.input_to_pos_sign(),
+                        _ => {},
                     }
                 }
                 KeyCode::Char(to_insert) => {
@@ -100,12 +103,13 @@ pub fn handle_key_events(key_event: KeyEvent, app: &mut App) -> AppResult<()> {
                 KeyCode::Backspace => {
                     app.delete_char();
                 }
-                KeyCode::Left => {
-                    app.move_cursor_left();
-                }
-                KeyCode::Right => {
-                    app.move_cursor_right();
-                }
+                // not needed in this case
+                // KeyCode::Left => {
+                //     app.move_cursor_left();
+                // }
+                // KeyCode::Right => {
+                //     app.move_cursor_right();
+                // }
                 _ => {}
             }
         },
