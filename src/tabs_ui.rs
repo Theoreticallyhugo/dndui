@@ -67,11 +67,11 @@ pub fn actions(frame: &mut Frame, app: &mut App, area: Rect) {
     )
 }
 pub fn pretty_spells(spells: &[Spell]) -> String {
-    let mut pretty_out = "\n NAME                              TIME RANGE HIT/DC           EFFECT   NOTES".to_string();
+    let mut pretty_out = "\n NAME                               TIME    RANGE  HIT/ DC      EFFECT   NOTES".to_string();
     for spell in spells.iter() {
         pretty_out.extend(format!(
             //   name   conc  rit    time  Fmt      rng,  hit,    eff, dur, aoeFmt, comp, cls  
-            "\n {:.<30} {: >1}{: >1} {: >2}{: <3}   {}  {: >7}  {: >10}  {}{} {}, {}",
+            "\n {:.<30} {: >1}{: >1} {: >2}{: <3}   {: >6}  {: >7}  {: >10}  {}{} {}, {}",
             spell.name,
             if spell.concentration {
                 "C"
